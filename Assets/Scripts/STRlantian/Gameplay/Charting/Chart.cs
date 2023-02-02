@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using YamlDotNet.RepresentationModel;
 
 namespace STRlantian.Gameplay.Charting
 {
     public class Chart
     {
+        private YamlMappingNode mapping;
         public ChartBasicInfo info
         {
             get;
         }
 
-        public Chart(List<string> chartFile)
+        public Chart(string chartFile)
         {
-
+            YamlStream stream = new();
+            stream.Load(new StringReader(chartFile));
+            mapping = (YamlMappingNode) stream.Documents[0].RootNode;
         }
     }
 
