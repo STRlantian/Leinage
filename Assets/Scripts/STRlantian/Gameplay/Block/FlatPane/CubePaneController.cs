@@ -28,10 +28,13 @@ namespace STRlantian.Gameplay.Block.FlatPane
                 {
                     paneList[pane].position = new Vector3(pane == 2 ? 1 : 0, pane == 1 ? 1 : 0, pane == 0 ? 1 : 0);
                 }
+                /*
                 if ((transform.rotation.x < -180
                     && transform.position.x > -360)
                     || (transform.rotation.x > 0
                     && transform.rotation.x < 180))
+                */
+                else
                 {
                     paneList[pane].position = new Vector3(pane == 2 ? -1 : 0, pane == 1 ? -1 : 0, pane == 0 ? -1 : 0);
                 }
