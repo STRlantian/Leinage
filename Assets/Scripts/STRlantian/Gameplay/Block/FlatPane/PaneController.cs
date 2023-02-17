@@ -11,7 +11,8 @@ namespace STRlantian.Gameplay.Block.FlatPane
         protected List<Vector3> initXYZ = new(3);
         [SerializeField]
         protected List<Transform> paneList = new(3);
-
+        [SerializeField]
+        protected float initSize = 3.5f;
         void Start()
         {
             Init();
@@ -24,15 +25,16 @@ namespace STRlantian.Gameplay.Block.FlatPane
 
         protected virtual void Init()
         {
+            transform.localScale = new Vector3(initSize, initSize, initSize);
             try
             {
                 for (int i = 0; i < paneList.Count; i++)
                 {
-                    paneList[i].position += new Vector3(0, 0, 0);
+                    paneList[i].position = initXYZ[i];
                 }
             }catch(IndexOutOfRangeException)
             {
-                Debug.LogError("你能不能把面和对应的初始位置设置的数量一样");
+                Debug.LogError("小朋友，可不可以尝试把面数和对应的初始位置的数设置的一样呢？加油，我相信你可以的！");
             }
         }
 
