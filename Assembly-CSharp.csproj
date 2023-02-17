@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{2CDF63FF-E109-3912-4D41-147451CA3E69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -57,11 +56,18 @@
     <Analyzer Include="D:\MyPrograms\VisualStudioIDE\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\GameEffects\BlurApplier.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\BaseScene.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\Chart.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\ChartIO.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\Chart.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\BaseScene.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Polyhedron\APolyhedron.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Note\ANote.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Polyhedron\Cube.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\GameEffects\BlurApplier.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\FlatPane\PaneController.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Util\SVectorConverter.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Util\STransformer.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\FlatPane\CubePaneController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\STRlantian\GameEffects\Shaders\Pixelation.shader" />
@@ -875,9 +881,6 @@
       <Project>{2EA0BE93-1399-7CAC-C853-54184855E022}</Project>
       <Name>YamlDotNet</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
