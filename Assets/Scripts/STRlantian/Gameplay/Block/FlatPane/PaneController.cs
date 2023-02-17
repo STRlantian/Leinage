@@ -20,7 +20,8 @@ namespace STRlantian.Gameplay.Block.FlatPane
 
         void Update()
         {
-            
+            FixRotationAngel();
+            ChangePanePosition();
         }
 
         protected virtual void Init()
@@ -38,6 +39,24 @@ namespace STRlantian.Gameplay.Block.FlatPane
             }
         }
 
-        protected abstract void ChangePosition();
+        private void FixRotationAngel()
+        {
+            if(transform.rotation.x >= 360
+                || transform.rotation.x <= -360)
+            {
+                transform.rotation = new Quaternion(0, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            }
+            if (transform.rotation.y >= 360
+                || transform.rotation.y <= -360)
+            {
+                transform.rotation = new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+            }
+            if (transform.rotation.z>= 360
+                || transform.rotation.z <= -360)
+            {
+                transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, 0, transform.rotation.w);
+            }
+        }
+        protected abstract void ChangePanePosition();
     }
 }
