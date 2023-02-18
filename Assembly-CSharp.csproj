@@ -57,14 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\ChartIO.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\FlatPane\CubePaneController.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\BlockController\CubeController.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\Chart.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\BaseScene.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Polyhedron\APolyhedron.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Note\ANote.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Polyhedron\Cube.cs" />
     <Compile Include="Assets\Scripts\STRlantian\GameEffects\BlurApplier.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\FlatPane\PaneController.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Game\TestScene.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\BlockController\ABlockController.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Pane\APane.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Util\SVectorConverter.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Util\STransformer.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
