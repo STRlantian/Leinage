@@ -35,36 +35,13 @@ namespace STRlantian.Gameplay.Note
         {
             public static int[] maxs;
             public static int[] mins;
-            public static float target;
+            public static char target;
         }
 
         void Start()
         {
             block = GameObject.Find("Block").transform;
-            if (attachedPane == Panes.A
-                || attachedPane == Panes.B
-                || attachedPane == Panes.C)
-            {
-                RotationInfo.maxs = new int[3] { 90, 360, -270 };
-                RotationInfo.mins = new int[3] { -90, 270, -360 };
-                switch(attachedPane)
-                {
-                    case Panes.A:
-                        RotationInfo.target = transform.rotation.x;
-                        break;
-                    case Panes.B:
-                        RotationInfo.target = transform.rotation.y;
-                        break;
-                    case Panes.C:
-                        RotationInfo.target = transform.rotation.z;
-                        break;
-                }
-            }
-            else
-            {
-                RotationInfo.maxs = new int[2] { -90, 270 };
-                RotationInfo.mins = new int[2] { -270 , 90 };
-            }
+            InitRotationInfo();
         }
 
         void Update()
@@ -80,12 +57,34 @@ namespace STRlantian.Gameplay.Note
 
         private void ChangeLayer()
         {
-            void CheckLayer(float v, int[] ranges)
-            {
-
-            }
             if(rotationRange.Length == 6)
             {
+            }
+        }
+
+        private void InitRotationInfo()
+        {
+            //这段我找不到更好的写法（
+            RotationInfo.maxs = (attachedPane == Panes.A
+                || attachedPane == Panes.B
+                || attachedPane == Panes.C) ? new int[3] { 90, 360, -270 } : new int[2] { -90, 270 };
+            RotationInfo.mins = (attachedPane == Panes.A
+                || attachedPane == Panes.B
+                || attachedPane == Panes.C) ? new int[3] { -90, 270, -360 } : new int[2] { -270, 90 };
+            switch (attachedPane)
+            {
+                case Panes.A:
+                case Panes.AX:
+                    RotationInfo.target = 'x';
+                    break;
+                case Panes.B:
+                case Panes.BX:
+                    RotationInfo.target = 'y';
+                    break;
+                case Panes.C:
+                case Panes.CX:
+                    RotationInfo.target = 'z';
+                    break;
             }
         }
     }
