@@ -6,15 +6,6 @@ namespace STRlantian.Util
 {
     public static class STransformer
     {
-        public static async void SmoothTranslate(Transform trans, Vector2 des)
-        {
-            for(int i = 0; i < 50; i++)
-            {
-                trans.Translate(SVectorConverter.VectorMinus(des, trans.position) / 25);
-                await Task.Delay(2);
-            }
-        }
-
         public static async void Translate(Transform trans, Vector2 des, float time)
         {
             Vector2 step = Vector2.zero;

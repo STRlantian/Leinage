@@ -53,7 +53,11 @@ namespace STRlantian.Gameplay.Note
                         RotationInfo.target = transform.rotation.x;
                         break;
                     case Panes.B:
-                        RotationInfo.target = transform.rotation.
+                        RotationInfo.target = transform.rotation.y;
+                        break;
+                    case Panes.C:
+                        RotationInfo.target = transform.rotation.z;
+                        break;
                 }
             }
             else
@@ -82,11 +86,6 @@ namespace STRlantian.Gameplay.Note
             }
             if(rotationRange.Length == 6)
             {
-                switch(attachedPane)
-                {
-                    case Panes.A:
-                        
-                }
             }
         }
     }

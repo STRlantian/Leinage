@@ -28,6 +28,7 @@ namespace STRlantian.Gameplay.Note
 
         public void SpawnNote(NoteTypes tp, Panes attPane)
         {
+
             STransformer.Translate(note.transform, slot.transform.position, note.speed);
             slot.curHasNote = true;
         }

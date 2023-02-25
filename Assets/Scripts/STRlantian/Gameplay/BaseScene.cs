@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay
 {
-    public class SceneBasic : MonoBehaviour
+    public abstract class ABaseScene : MonoBehaviour
     {
         void Start()
         {

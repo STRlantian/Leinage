@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{2CDF63FF-E109-3912-4D41-147451CA3E69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -65,6 +66,7 @@
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Note\Note.cs" />
     <Compile Include="Assets\Scripts\STRlantian\GameEffects\BlurApplier.cs" />
     <Compile Include="Assets\Scripts\STRlantian\GameEffects\HitEffect.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\SmoothTransformer.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Game\TestScene.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\BlockController\ABlockController.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Song\SongInfo.cs" />
