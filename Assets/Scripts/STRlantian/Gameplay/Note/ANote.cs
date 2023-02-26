@@ -17,7 +17,7 @@ namespace STRlantian.Gameplay.Note
         FLICK,
         SPIN
     }
-    public class Note : MonoBehaviour
+    public abstract class ANote : MonoBehaviour
     {
         public NoteTypes type;
         public Panes attachedPane;
@@ -30,12 +30,16 @@ namespace STRlantian.Gameplay.Note
         private bool isOut;
         private HitEffect hit;
         private Transform block;
-        private int[] rotationRange;
         private struct RotationInfo
         {
             public static int[] maxs;
             public static int[] mins;
-            public static char target;
+            public static byte target;
+        }
+
+        protected ANote(NoteTypes tp)
+        {
+            type = tp;
         }
 
         void Start()
@@ -46,7 +50,7 @@ namespace STRlantian.Gameplay.Note
 
         void Update()
         {
-            
+            ChangeLayer();
         }
 
         public async void TriggerNote()
@@ -57,8 +61,14 @@ namespace STRlantian.Gameplay.Note
 
         private void ChangeLayer()
         {
-            if(rotationRange.Length == 6)
+            float tar;
+            for(int i = 0; i < RotationInfo.maxs.Length; i++)
             {
+                //什么魔鬼写法
+                tar = RotationInfo.target == 'x' ? block.rotation.x :
+                    RotationInfo.target == 'y' ? block.rotation.y : block.rotation.z;
+                GetComponent<SpriteRenderer>().sortingOrder = 
+                    tar < RotationInfo.mins[i] || tar > RotationInfo.maxs[i] ? -1 : 1;
             }
         }
 
@@ -75,15 +85,15 @@ namespace STRlantian.Gameplay.Note
             {
                 case Panes.A:
                 case Panes.AX:
-                    RotationInfo.target = 'x';
+                    RotationInfo.target = 0;
                     break;
                 case Panes.B:
                 case Panes.BX:
-                    RotationInfo.target = 'y';
+                    RotationInfo.target = 1;
                     break;
                 case Panes.C:
                 case Panes.CX:
-                    RotationInfo.target = 'z';
+                    RotationInfo.target = 2;
                     break;
             }
         }

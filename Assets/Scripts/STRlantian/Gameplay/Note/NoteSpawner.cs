@@ -1,6 +1,5 @@
 ﻿using STRlantian.Gameplay.Block.Pane;
 using STRlantian.Gameplay.Note;
-using STRlantian.Gameplay.Song;
 using STRlantian.Util;
 using System;
 using System.Collections;
@@ -10,8 +9,6 @@ namespace STRlantian.Gameplay.Note
 {
     public class NoteSpawner : MonoBehaviour
     {
-        [SerializeField]
-        private SongInfo song;
         [SerializeField]
         private NoteReceiver slot;
 
@@ -28,8 +25,6 @@ namespace STRlantian.Gameplay.Note
 
         public void SpawnNote(NoteTypes tp, Panes attPane)
         {
-
-            STransformer.Translate(note.transform, slot.transform.position, note.speed);
             slot.curHasNote = true;
         }
     }

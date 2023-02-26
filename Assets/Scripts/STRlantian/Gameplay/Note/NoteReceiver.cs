@@ -9,7 +9,7 @@ namespace STRlantian.Gameplay.Note
     {
         public bool curHasNote = false;
         public bool isAuto;
-        public List<Note> noteList = new(50);
+        public List<ANote> noteList = new(50);
 
         private BoxCollider2D box;
         private int received = 0;

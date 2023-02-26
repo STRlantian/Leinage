@@ -1,12 +1,13 @@
+﻿using STRlantian.Gameplay.Note;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace STRlantian.Gameplay.Song
+namespace Assets.Scripts.STRlantian.Gameplay.Note
 {
-    public class SongInfo : MonoBehaviour
+    public class NoteTap : ANote
     {
-        // Start is called before the first frame update
+        protected NoteTap(NoteTypes tp) : base(tp) {}
+
         void Start()
         {
 
