@@ -1,12 +1,11 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 
 namespace STRlantian.Util
 {
     public static class STransformer
     {
-        public static async void Translate(Transform trans, Vector2 des, float time)
+        public static async void UniformTranslate(this Transform trans, Vector2 des, float time)
         {
             Vector2 step = Vector2.zero;
             for(int i = 0; i < time; i++)

@@ -12,6 +12,7 @@ namespace STRlantian.Editor
         {
             GameObject tap = new GameObject();
             tap.AddComponent<NoteTap>();
+            
         }
     }
 }

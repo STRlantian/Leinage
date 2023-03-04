@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.STRlantian.Gameplay.Note
 {
-    public class NoteTap : ANote
+    public sealed class NoteTap : ANote
     {
-        protected NoteTap(NoteTypes tp) : base(tp) {}
+        protected NoteTap() : base(NoteTypes.TAP) {}
 
         void Start()
         {
@@ -17,6 +17,12 @@ namespace Assets.Scripts.STRlantian.Gameplay.Note
         void Update()
         {
 
+        }
+
+        public override void TriggerNote()
+        {
+
+            base.TriggerNote();
         }
     }
 }

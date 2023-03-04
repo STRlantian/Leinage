@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.STRlantian.Scripts.Gameplay
 {
+    /// <summary>
+    /// SmoothTransformer: 平滑移动
+    /// </summary>
+    /// 要改
     public class SmoothTransformer : MonoBehaviour
     {
         public Vector2 destination;
@@ -21,7 +25,7 @@ namespace Assets.Scripts.STRlantian.Scripts.Gameplay
                 {
                     isEnabled = false;
                 }
-            }
+            }        
         }
 
         private async void TranslateStep()

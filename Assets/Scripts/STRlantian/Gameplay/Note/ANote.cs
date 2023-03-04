@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json.Bson;
 using STRlantian.GameEffects;
 using STRlantian.Gameplay.Block.Pane;
+using STRlantian.Util;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -46,6 +49,7 @@ namespace STRlantian.Gameplay.Note
         {
             block = GameObject.Find("Block").transform;
             InitRotationInfo();
+            
         }
 
         void Update()
@@ -53,7 +57,7 @@ namespace STRlantian.Gameplay.Note
             ChangeLayer();
         }
 
-        public async void TriggerNote()
+        public virtual async void TriggerNote()
         {
             await new Task(hit.PlayEffect);
             Destroy(gameObject);
@@ -64,7 +68,6 @@ namespace STRlantian.Gameplay.Note
             float tar;
             for(int i = 0; i < RotationInfo.maxs.Length; i++)
             {
-                //什么魔鬼写法
                 tar = RotationInfo.target == 'x' ? block.rotation.x :
                     RotationInfo.target == 'y' ? block.rotation.y : block.rotation.z;
                 GetComponent<SpriteRenderer>().sortingOrder = 

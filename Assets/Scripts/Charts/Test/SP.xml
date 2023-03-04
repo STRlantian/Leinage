@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<chart>
+	<info name="Test">
+		<bpm>140</bpm>
+		<time></time>
+	</info>
+	
+	<note>
+	</note>
+	
+	<event>
+	</event>
+</chart>

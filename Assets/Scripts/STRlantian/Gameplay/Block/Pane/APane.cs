@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Block.Pane
 {
+    /// <summary>
+    /// Panes: 每个面对用的参数编号
+    /// </summary>
     public enum Panes
     {
         A,
@@ -13,19 +16,22 @@ namespace STRlantian.Gameplay.Block.Pane
         C,
         CX
     }
+
+    /// <summary>
+    /// APane: 所有组成几何体的面的派生类
+    /// </summary>
     public class APane : MonoBehaviour
     {
         [SerializeField]
-        protected BoxCollider2D edge;
+        protected BoxCollider2D edge;                       //想作为判定线来着
 
-        protected readonly int lineCount;
-        protected readonly int slotPerLine;
-        List<NoteReceiver> slots = new(8);
+        protected readonly int lineCount;                   //这个面有多少边
+        //protected readonly int slotPerLine;               //每个边多少个note槽
 
-        protected APane(int lineCount, int slotPerLine)
+        protected APane(int lineCount /*, int slotPerLine */)
         {
             this.lineCount = lineCount;
-            this.slotPerLine = slotPerLine;
+            //this.slotPerLine = slotPerLine;
         }
 
         void Start()
@@ -38,6 +44,7 @@ namespace STRlantian.Gameplay.Block.Pane
 
         }
 
+        /*
         private void ApplySlot()
         {
             Bounds bound = edge.bounds;
@@ -45,5 +52,6 @@ namespace STRlantian.Gameplay.Block.Pane
             Vector2 min = bound.min;
             
         }
+        */
     }
 }
