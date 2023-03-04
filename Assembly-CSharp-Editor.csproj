@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{B502C10C-BAD7-4F22-2C56-7496B869F37B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -925,10 +926,6 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{2CDF63FF-E109-3912-4D41-147451CA3E69}</Project>
       <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="YamlDotNet.csproj">
-      <Project>{2EA0BE93-1399-7CAC-C853-54184855E022}</Project>
-      <Name>YamlDotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
