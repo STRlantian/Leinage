@@ -55,16 +55,16 @@ namespace STRlantian.Gameplay.Charting
                 switch(attList[0].Value)
                 {
                     case "tap":
-                        note = new NoteTap();
+                        note = new NoteTap(attList);
                         break;
                     case "flick":
-                        note = new NoteFlick();
+                        note = new NoteFlick(attList);
                         break;
                     case "drag":
-                        note = new NoteDrag();
+                        note = new NoteDrag(attList);
                         break;
                     case "hold":
-                        note = new NoteHold();
+                        note = new NoteHold(attList);
                         break;
                 }
             }

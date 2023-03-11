@@ -1,8 +1,11 @@
-﻿namespace STRlantian.Gameplay.Note
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
+
+namespace STRlantian.Gameplay.Note
 {
     public class NoteHold : ANote
     {
         public int length;
-        public NoteHold() : base(NoteTypes.HOLD) {}
+        public NoteHold(List<XAttribute> attList) : base(attList) { }
     }
 }

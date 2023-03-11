@@ -1,12 +1,14 @@
 ﻿using STRlantian.Gameplay.Note;
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 namespace STRlantian.Gameplay.Note
 {
     public sealed partial class NoteTap : ANote
     {
-        public NoteTap() : base(NoteTypes.TAP) {}
+        public NoteTap(List<XAttribute> attList) : base(attList) { }
 
         void Start()
         {

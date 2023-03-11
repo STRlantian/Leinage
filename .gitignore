@@ -363,7 +363,3 @@ MigrationBackup/
 FodyWeavers.xsd
 /Library
 /Temp
-/UserSettings
-/YamlDotNet.csproj
-/YamlDotNet.Examples.csproj
-/Assets/YamlDotNet
