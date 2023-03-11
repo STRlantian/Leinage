@@ -20,7 +20,7 @@ namespace STRlantian.Gameplay.Block.Pane
     /// <summary>
     /// APane: 所有组成几何体的面的派生类
     /// </summary>
-    public class APane : MonoBehaviour
+    public partial class APane : MonoBehaviour
     {
         [SerializeField]
         protected BoxCollider2D edge;                       //想作为判定线来着

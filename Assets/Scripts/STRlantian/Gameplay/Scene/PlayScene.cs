@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Scene
 {
-    public class PlayScene : MonoBehaviour
+    public partial class PlayScene : MonoBehaviour
     {
-        public SongInfo song;
         public Chart chart;
 
         [SerializeField]

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<chart>
+	<info name="Test" level="SP" diff="12" rhythm="4:4" bpm="140" time="233" offset="20"></info>
+	
+	<notes>
+		<note type="tap" beat="1:4" x="5" speed="1"></note>
+	</notes>
+	
+	<events>
+	</events>
+</chart>

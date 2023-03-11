@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Note
 {
-    public class NoteReceiver : MonoBehaviour
+    public partial class NoteReceiver : MonoBehaviour
     {
         public bool curHasNote = false;
         public bool isAuto;

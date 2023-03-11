@@ -8,7 +8,7 @@ namespace STRlantian.Gameplay.Block.BlockController
     /// <summary>
     ///     ABlockController: 几何体总控制器 抽象类
     /// </summary>
-    public abstract class ABlockController : MonoBehaviour
+    public abstract partial class ABlockController : MonoBehaviour
     {
         /* 对于这个类我没有太下功夫
          * 因为想着先做好Note那边的事

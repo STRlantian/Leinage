@@ -7,7 +7,7 @@ namespace STRlantian.GameEffects
     ///     BlurApplier: 对GameObject进行模糊化处理
     ///     关联的shader: ImageBlur.shader
     /// </summary>
-    public class BlurApplier : MonoBehaviour
+    public partial class BlurApplier : MonoBehaviour
     {
         [SerializeField]
         private SpriteRenderer sprRen;                      //如果是Image的话。。。到时候再说吧(逃

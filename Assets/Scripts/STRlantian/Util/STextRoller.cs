@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace STRlantian.Util
 {
-    public static class STextRoller
+    public static partial class STextRoller
     {
         public static int wait
         {

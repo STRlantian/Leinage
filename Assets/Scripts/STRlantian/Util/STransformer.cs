@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace STRlantian.Util
 {
-    public static class STransformer
+    public static partial class STransformer
     {
         public static async void UniformTranslate(this Transform trans, Vector2 des, float time)
         {

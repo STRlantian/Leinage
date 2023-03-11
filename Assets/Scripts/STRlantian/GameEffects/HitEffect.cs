@@ -11,7 +11,7 @@ namespace STRlantian.GameEffects
     /// 这个类要改 因为每次都实例化一个GameObject的话很费内存
     /// 会改成从一个现有的GameObject赋值
     /// ====================
-    public class HitEffect : MonoBehaviour
+    public partial class HitEffect : MonoBehaviour
     {
         private static int showTime;            
         private Animator anim;

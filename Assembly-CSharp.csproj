@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{2CDF63FF-E109-3912-4D41-147451CA3E69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -75,7 +74,7 @@
     <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\Charts\Test\SP.xml" />
+    <None Include="Assets\Scripts\Charts\Test\Test_SP.xml" />
     <None Include="Assets\Scripts\STRlantian\GameEffects\Shaders\Pixelation.shader" />
     <None Include="Assets\Scripts\STRlantian\GameEffects\Shaders\ImageBlur.shader" />
     <None Include="Assets\Scripts\STRlantian\GameEffects\Shaders\GlowEdge.shader" />

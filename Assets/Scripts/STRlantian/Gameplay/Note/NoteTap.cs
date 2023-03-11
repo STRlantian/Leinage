@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.STRlantian.Gameplay.Note
 {
-    public sealed class NoteTap : ANote
+    public sealed partial class NoteTap : ANote
     {
         protected NoteTap() : base(NoteTypes.TAP) {}
 

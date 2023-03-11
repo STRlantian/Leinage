@@ -20,7 +20,7 @@ namespace STRlantian.Gameplay.Note
         FLICK,
         SPIN
     }
-    public abstract class ANote : MonoBehaviour
+    public abstract partial class ANote : MonoBehaviour
     {
         public NoteTypes type;
         public Panes attachedPane;

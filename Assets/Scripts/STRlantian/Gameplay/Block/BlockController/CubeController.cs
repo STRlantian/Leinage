@@ -2,7 +2,7 @@
 
 namespace STRlantian.Gameplay.Block.BlockController
 {
-    public class CubeController : ABlockController
+    public partial class CubeController : ABlockController
     {
 
 

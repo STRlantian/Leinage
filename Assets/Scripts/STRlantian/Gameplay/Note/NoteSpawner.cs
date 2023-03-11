@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Note
 {
-    public class NoteSpawner : MonoBehaviour
+    public partial class NoteSpawner : MonoBehaviour
     {
         [SerializeField]
         private NoteReceiver slot;

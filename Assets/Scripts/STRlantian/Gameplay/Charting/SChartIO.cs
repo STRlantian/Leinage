@@ -8,7 +8,7 @@ namespace STRlantian.Gameplay.Charting
     /// <summary>
     /// ChartIO: 读取Chart文件
     /// </summary>
-    public static class SChartIO
+    public static partial class SChartIO
     {
         private const string PATH = "Scripts\\Charts";          //恒定的谱面文件夹
 
@@ -24,12 +24,12 @@ namespace STRlantian.Gameplay.Charting
         {
             try
             {
-                XDocument file = new XDocument($"{PATH}{name}\\{diff}.xml");
+                XDocument file = new XDocument($"{PATH}\\{name}\\{name}_{diff}.xml");
                 return new Chart(file);
             }
             catch(IOException)
             {
-                throw new System.Exception($"Chart {name}\\{diff}.xml Not Found!");
+                throw new System.Exception($"Chart {name}\\{name}_{diff}.xml Not Found!");
             }
         }
     }
