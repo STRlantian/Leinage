@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using STRlantian.Gameplay.Note;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Xml.Linq;
+using UnityEngine;
 
 namespace STRlantian.Gameplay.Charting
 {
@@ -11,6 +16,12 @@ namespace STRlantian.Gameplay.Charting
     public partial class Chart
     {
         private ChartBasicInfo info;                  //谱面基本信息
+        private List<ANote> noteList = new(50);
+
+        public List<ANote> NoteList
+        {
+            get { return noteList; }
+        }
         public ChartBasicInfo BasicInfo
         {
             get { return info; }
@@ -30,6 +41,33 @@ namespace STRlantian.Gameplay.Charting
         {
             List<XAttribute> xInfo = new(chartFile.Element("info").Attributes());
             info = new(xInfo);
+            List<XElement> notes = new(chartFile.Elements("notes"));
+            ProcessNote(notes);
+        }
+
+        private void ProcessNote(List<XElement> notes)
+        {
+            List<XAttribute> attList = new(5);
+            ANote note;
+            foreach (XElement el in notes)
+            {
+                attList = new(el.Attributes());
+                switch(attList[0].Value)
+                {
+                    case "tap":
+                        note = new NoteTap();
+                        break;
+                    case "flick":
+                        note = new NoteFlick();
+                        break;
+                    case "drag":
+                        note = new NoteDrag();
+                        break;
+                    case "hold":
+                        note = new NoteHold();
+                        break;
+                }
+            }
         }
     }
 
@@ -38,6 +76,7 @@ namespace STRlantian.Gameplay.Charting
         public string name;                     //曲名
         public string level;                    //级别 RL MD SP CL ?
         public string diff;                     //定数 0 - zeta
+        public Vector2 rhythm;                   //拍号 eg. 2:4 代表四二拍
         public float bpm;                       //bpm
         public int time;                        //时间 秒
         public float offset;                    //延迟 ms 可带小数点
@@ -48,9 +87,11 @@ namespace STRlantian.Gameplay.Charting
             name = list[0].Value;
             level = list[1].Value;
             diff = list[2].Value;
-            bpm = float.Parse(list[3].Value);
-            time = int.Parse(list[4].Value);
-            offset = float.Parse(list[5].Value);
+            string[] rhy = list[3].Value.Split(':');
+            rhythm = new Vector2(float.Parse(rhy[0]), float.Parse(rhy[1]));
+            bpm = float.Parse(list[4].Value);
+            time = int.Parse(list[5].Value);
+            offset = float.Parse(list[6].Value);
             beat = (int)(time * bpm / 60);
         }
     }

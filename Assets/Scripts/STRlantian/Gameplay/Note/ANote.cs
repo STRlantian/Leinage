@@ -1,25 +1,23 @@
-﻿using Newtonsoft.Json.Bson;
-using STRlantian.GameEffects;
+﻿using STRlantian.GameEffects;
 using STRlantian.Gameplay.Block.Pane;
-using STRlantian.Util;
-using System.Collections;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace STRlantian.Gameplay.Note
 {
     public enum NoteTypes
     {
         TAP,
-        HOLD,
-        DRAG,
         FLICK,
+        DRAG,
+        HOLD,
         SPIN
     }
+
     public abstract partial class ANote : MonoBehaviour
     {
         public NoteTypes type;
@@ -40,9 +38,11 @@ namespace STRlantian.Gameplay.Note
             public static byte target;
         }
 
-        protected ANote(NoteTypes tp)
+        protected ANote(List<XAttribute> attList)
         {
-            type = tp;
+            type = attList[0].Value == "tap" ? NoteTypes.TAP :
+                attList[0].Value == "flick" ? NoteTypes.FLICK :
+                attList[0].Value == "drag" ? NoteTypes.DRAG : NoteTypes.HOLD;
         }
 
         void Start()

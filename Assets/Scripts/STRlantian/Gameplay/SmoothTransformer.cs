@@ -25,7 +25,7 @@ namespace Assets.Scripts.STRlantian.Scripts.Gameplay
                 {
                     isEnabled = false;
                 }
-            }        
+            }
         }
 
         private async void TranslateStep()

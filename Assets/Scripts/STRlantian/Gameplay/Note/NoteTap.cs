@@ -2,11 +2,11 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.STRlantian.Gameplay.Note
+namespace STRlantian.Gameplay.Note
 {
     public sealed partial class NoteTap : ANote
     {
-        protected NoteTap() : base(NoteTypes.TAP) {}
+        public NoteTap() : base(NoteTypes.TAP) {}
 
         void Start()
         {
