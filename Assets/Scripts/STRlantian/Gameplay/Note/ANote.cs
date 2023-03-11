@@ -1,5 +1,6 @@
 ﻿using STRlantian.GameEffects;
 using STRlantian.Gameplay.Block.Pane;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace STRlantian.Gameplay.Note
         public NoteTypes type;
         public Panes attachedPane;
         public float speed;
+        public int[] beat;
 
         [SerializeField]
         protected BoxCollider box;
@@ -40,9 +42,22 @@ namespace STRlantian.Gameplay.Note
 
         protected ANote(List<XAttribute> attList)
         {
-            type = attList[0].Value == "tap" ? NoteTypes.TAP :
-                attList[0].Value == "flick" ? NoteTypes.FLICK :
-                attList[0].Value == "drag" ? NoteTypes.DRAG : NoteTypes.HOLD;
+            switch (attList[0].Value.ToLower())
+            {
+                case "tap":
+                    type = NoteTypes.TAP;
+                    break;
+                case "flick":
+                    type = NoteTypes.FLICK;
+                    break;
+                case "drag":
+                    type = NoteTypes.DRAG;
+                    break;
+                case "hold":
+                    type = NoteTypes.HOLD;
+                    break;
+            }
+            beat = Array.ConvertAll<string, int>(attList[1].Value.Split(':'), int.Parse);
         }
 
         void Start()
