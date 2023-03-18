@@ -1,6 +1,7 @@
 ﻿using STRlantian.Gameplay.Note;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace STRlantian.Gameplay.Charting
@@ -76,6 +77,7 @@ namespace STRlantian.Gameplay.Charting
         public string diff;                     //定数 0 - zeta
         public Vector2 rhythm;                   //拍号 eg. 2:4 代表四二拍
         public float bpm;                       //bpm
+        public float speed;
         public int time;                        //时间 秒
         public float offset;                    //延迟 ms 可带小数点
         public int beat;                        //总拍数
@@ -88,8 +90,9 @@ namespace STRlantian.Gameplay.Charting
             string[] rhy = list[3].Value.Split(':');
             rhythm = new Vector2(float.Parse(rhy[0]), float.Parse(rhy[1]));
             bpm = float.Parse(list[4].Value);
-            time = int.Parse(list[5].Value);
-            offset = float.Parse(list[6].Value);
+            speed = float.Parse(list[5].Value);
+            time = int.Parse(list[6].Value);
+            offset = float.Parse(list[7].Value);
             beat = (int)(time * bpm / 60);
         }
     }

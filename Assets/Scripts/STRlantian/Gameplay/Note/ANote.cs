@@ -61,12 +61,20 @@ namespace STRlantian.Gameplay.Note
         protected virtual void InitAttributes(List<XAttribute> attList)
         {
             string tp = attList[0].Value.ToLower();
-            type = tp.Equals("tap") ? NoteTypes.TAP :
-                tp.Equals("flick") ? NoteTypes.FLICK :
-                tp.Equals("drag") ? NoteTypes.DRAG :
-                tp.Equals("hold") ? NoteTypes.HOLD : throw new Exception("Invalid note type!");
-            beat = Array.ConvertAll<string, int>(attList[1].Value.Split(':'), int.Parse);
+            type = tp.Equals("tap") ? NoteTypes.TAP
+                 : tp.Equals("flick") ? NoteTypes.FLICK
+                 : tp.Equals("drag") ? NoteTypes.DRAG
+                 : tp.Equals("hold") ? NoteTypes.HOLD
+                 : throw new Exception("Invalid note type!");
+            beat = Array.ConvertAll(attList[1].Value.Split(':'), int.Parse);
             string pn = attList[2].Value.ToUpper();
+            attachedPane = pn.Equals("A") ? Panes.A
+                         : pn.Equals("AX") ? Panes.AX
+                         : pn.Equals("B") ? Panes.B
+                         : pn.Equals("BX") ? Panes.BX
+                         : pn.Equals("C") ? Panes.C
+                         : pn.Equals("CX") ? Panes.CX
+                         : throw new Exception("Invalid Pane");
             //line
         }
 
