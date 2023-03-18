@@ -42,22 +42,8 @@ namespace STRlantian.Gameplay.Note
 
         protected ANote(List<XAttribute> attList)
         {
-            switch (attList[0].Value.ToLower())
-            {
-                case "tap":
-                    type = NoteTypes.TAP;
-                    break;
-                case "flick":
-                    type = NoteTypes.FLICK;
-                    break;
-                case "drag":
-                    type = NoteTypes.DRAG;
-                    break;
-                case "hold":
-                    type = NoteTypes.HOLD;
-                    break;
-            }
-            beat = Array.ConvertAll<string, int>(attList[1].Value.Split(':'), int.Parse);
+            InitAttributes(attList);
+
         }
 
         void Start()
@@ -70,6 +56,18 @@ namespace STRlantian.Gameplay.Note
         void Update()
         {
             ChangeLayer();
+        }
+
+        protected virtual void InitAttributes(List<XAttribute> attList)
+        {
+            string tp = attList[0].Value.ToLower();
+            type = tp.Equals("tap") ? NoteTypes.TAP :
+                tp.Equals("flick") ? NoteTypes.FLICK :
+                tp.Equals("drag") ? NoteTypes.DRAG :
+                tp.Equals("hold") ? NoteTypes.HOLD : throw new Exception("Invalid note type!");
+            beat = Array.ConvertAll<string, int>(attList[1].Value.Split(':'), int.Parse);
+            string pn = attList[2].Value.ToUpper();
+            //line
         }
 
         public virtual async void TriggerNote()
@@ -115,5 +113,6 @@ namespace STRlantian.Gameplay.Note
                     break;
             }
         }
+
     }
 }

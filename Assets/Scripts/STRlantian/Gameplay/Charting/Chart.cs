@@ -1,10 +1,5 @@
 ﻿using STRlantian.Gameplay.Note;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Xml.Linq;
 using UnityEngine;
 
@@ -16,9 +11,9 @@ namespace STRlantian.Gameplay.Charting
     public partial class Chart
     {
         private ChartBasicInfo info;                  //谱面基本信息
-        private List<ANote> noteList = new(50);
+        private Queue<ANote> noteList = new(50);
 
-        public List<ANote> NoteList
+        public Queue<ANote> NoteList
         {
             get { return noteList; }
         }
@@ -48,9 +43,9 @@ namespace STRlantian.Gameplay.Charting
         private void ProcessNote(List<XElement> notes)
         {
             List<XAttribute> attList = new(5);
-            ANote note;
             foreach (XElement el in notes)
             {
+                ANote note;
                 attList = new(el.Attributes());
                 switch(attList[0].Value)
                 {
@@ -65,7 +60,10 @@ namespace STRlantian.Gameplay.Charting
                         break;
                     case "hold":
                         note = new NoteHold(attList);
+                        
                         break;
+                    default:
+                        throw new System.Exception("Invalid note type value!");
                 }
             }
         }
