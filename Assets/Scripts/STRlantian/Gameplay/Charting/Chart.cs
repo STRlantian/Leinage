@@ -1,7 +1,8 @@
-﻿using STRlantian.Gameplay.Note;
+﻿using STRlantian.Gameplay.Block.Block;
+using STRlantian.Gameplay.Note;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace STRlantian.Gameplay.Charting
@@ -11,13 +12,19 @@ namespace STRlantian.Gameplay.Charting
     /// </summary>
     public partial class Chart
     {
-        private ChartBasicInfo info;                  //谱面基本信息
         private Queue<ANote> noteList = new(50);
-
         public Queue<ANote> NoteList
         {
             get { return noteList; }
         }
+
+        private List<ABlock> blockList = new(10);
+        public List<ABlock> BlockList
+        {
+            get { return blockList; }
+        }
+
+        private ChartBasicInfo info;                  //谱面基本信息
         public ChartBasicInfo BasicInfo
         {
             get { return info; }
@@ -35,15 +42,14 @@ namespace STRlantian.Gameplay.Charting
 
         private void LoadChartFile(XDocument chartFile)
         {
-            List<XAttribute> xInfo = new(chartFile.Element("info").Attributes());
-            info = new(xInfo);
-            List<XElement> notes = new(chartFile.Elements("notes"));
-            ProcessNote(notes);
+            info = new(new(chartFile.Element("info").Attributes()));
+            ProcessBlocks(new(chartFile.Elements("blocks")));
+            ProcessNotes(new(chartFile.Elements("notes")));
         }
 
-        private void ProcessNote(List<XElement> notes)
+        private void ProcessNotes(List<XElement> notes)
         {
-            List<XAttribute> attList = new(5);
+            List<XAttribute> attList = new(9);
             foreach (XElement el in notes)
             {
                 ANote note;
@@ -61,10 +67,24 @@ namespace STRlantian.Gameplay.Charting
                         break;
                     case "hold":
                         note = new NoteHold(attList);
-                        
                         break;
                     default:
                         throw new System.Exception("Invalid note type value!");
+                }
+                noteList.Enqueue(note);
+            }
+        }
+
+        private void ProcessBlocks(List<XElement> blocks)
+        {
+            List<XAttribute> attList = new(3);
+            foreach(XElement el in blocks)
+            {
+                attList = new(el.Attributes());
+                switch(attList[0].Value.ToLower())
+                {
+                    case "hex":
+                        blockList.Add(new Hex)
                 }
             }
         }
@@ -77,7 +97,7 @@ namespace STRlantian.Gameplay.Charting
         public string diff;                     //定数 0 - zeta
         public Vector2 rhythm;                   //拍号 eg. 2:4 代表四二拍
         public float bpm;                       //bpm
-        public float speed;
+        public float speed;                     //全局速度
         public int time;                        //时间 秒
         public float offset;                    //延迟 ms 可带小数点
         public int beat;                        //总拍数
