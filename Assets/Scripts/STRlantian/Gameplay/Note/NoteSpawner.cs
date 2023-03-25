@@ -23,7 +23,7 @@ namespace STRlantian.Gameplay.Note
 
         }
 
-        public void SpawnNote(NoteTypes tp, Panes attPane)
+        public void SpawnNote(NoteTypes tp, PaneType attPane)
         {
             slot.curHasNote = true;
         }
