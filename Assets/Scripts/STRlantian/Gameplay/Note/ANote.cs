@@ -14,8 +14,7 @@ namespace STRlantian.Gameplay.Note
         TAP,
         FLICK,
         DRAG,
-        HOLD,
-        SPIN
+        HOLD
     }
 
     public abstract partial class ANote : MonoBehaviour
@@ -23,7 +22,7 @@ namespace STRlantian.Gameplay.Note
         public NoteTypes type;
         public Pane attachedPane;
         public float speed;
-        public int[] beat;
+        public ushort[] beat;
 
         [SerializeField]
         protected BoxCollider box;
@@ -63,7 +62,7 @@ namespace STRlantian.Gameplay.Note
                  : tp.Equals("drag") ? NoteTypes.DRAG
                  : tp.Equals("hold") ? NoteTypes.HOLD
                  : throw new Exception("Invalid note type!");
-            beat = Array.ConvertAll(attList[1].Value.Split(':'), int.Parse);
+            beat = Array.ConvertAll(attList[1].Value.Split(':'), ushort.Parse);
             /*
             attachedPane = new APane();
             attachedPane = pn.Equals("A") ? PaneType.A
@@ -125,5 +124,6 @@ namespace STRlantian.Gameplay.Note
             */
         }
 
+        protected abstract void JudgeNote();
     }
 }

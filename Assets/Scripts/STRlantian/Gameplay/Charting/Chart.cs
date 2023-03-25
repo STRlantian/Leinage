@@ -1,5 +1,6 @@
 ﻿using STRlantian.Gameplay.Block.Block;
 using STRlantian.Gameplay.Note;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -54,22 +55,11 @@ namespace STRlantian.Gameplay.Charting
             {
                 ANote note;
                 attList = new(el.Attributes());
-                switch(attList[0].Value)
+
+                NoteTypes tp = Enum.Parse<NoteTypes>(attList[0].Value.ToUpper());
+                
+                foreach(int i in Enum.GetValues(typeof(NoteTypes)))
                 {
-                    case "tap":
-                        note = new NoteTap(attList);
-                        break;
-                    case "flick":
-                        note = new NoteFlick(attList);
-                        break;
-                    case "drag":
-                        note = new NoteDrag(attList);
-                        break;
-                    case "hold":
-                        note = new NoteHold(attList);
-                        break;
-                    default:
-                        throw new System.Exception("Invalid note type value!");
                 }
                 noteList.Enqueue(note);
             }
@@ -81,20 +71,6 @@ namespace STRlantian.Gameplay.Charting
             foreach(XElement el in blocks)
             {
                 attList = new(el.Attributes());
-                switch(attList[0].Value.ToLower())
-                {
-                    case "hex":
-                        blockList.Add(new HexBlock(attList));
-                        break;
-                    /*
-                case "tetra":
-                    blockList.Add(new TetraBlock(attList));
-                    break;
-                    ...
-                    */
-                    default:
-                        throw new System.Exception("Invalid block type!");
-                }
             }
         }
     }
@@ -110,6 +86,8 @@ namespace STRlantian.Gameplay.Charting
         public int time;                        //时间 秒
         public float offset;                    //延迟 ms 可带小数点
         public int beat;                        //总拍数
+        public string author;
+        public string illust;
 
         public ChartBasicInfo(List<XAttribute> list) 
         {
@@ -123,6 +101,8 @@ namespace STRlantian.Gameplay.Charting
             time = int.Parse(list[6].Value);
             offset = float.Parse(list[7].Value);
             beat = (int)(time * bpm / 60);
+            author = list[8].Value;
+            illust = list[9].Value;
         }
     }
 }

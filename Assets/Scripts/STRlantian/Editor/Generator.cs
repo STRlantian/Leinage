@@ -12,6 +12,11 @@ namespace STRlantian.Editor
             GameObject tap = new GameObject("TapInst");
             tap.AddComponent<NoteTap>();
             GameObject flk = new GameObject("FlickInst");
+            flk.AddComponent<NoteFlick>();
+            GameObject drg = new GameObject("DragInst");
+            drg.AddComponent<NoteDrag>();
+            GameObject hld = new GameObject("HoldInst");
+            hld.AddComponent<NoteHold>();
         }
     }
 }
