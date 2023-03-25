@@ -363,3 +363,12 @@ FodyWeavers.xsd
 /Library
 /Temp
 /UserSettings
+
+# DreamOfStars Custom
+Assets/TextMesh Pro
+Assets/YamlDotNet
+Assets/TextMesh Pro.meta
+Assets/YamlDotNet.meta
+testv0.1.apk
+YamlDotNet.csproj
+YamlDotNet.Examples.csproj
