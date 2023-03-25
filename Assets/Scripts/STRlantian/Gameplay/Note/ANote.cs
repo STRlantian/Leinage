@@ -21,7 +21,7 @@ namespace STRlantian.Gameplay.Note
     public abstract partial class ANote : MonoBehaviour
     {
         public NoteTypes type;
-        public APane attachedPane;
+        public Pane attachedPane;
         public float speed;
         public int[] beat;
 

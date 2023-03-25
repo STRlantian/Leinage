@@ -7,7 +7,7 @@
 		<!--type: 什么几何体 值为面数(tetra, hex, octa, dode, ico) ; name:方块名 下面要用-->
 		<!--英语小常识: 以上分别对应 正四面体 正六面体 正八面体 正十二面体 正二十面体-->
 		<!--目前来说 只能实现正六面体(然后是四面 等等)-->
-		<block type="hex" name="sample"></block>
+		<block type="hex" name="sample" back="false"></block>
 	</blocks>
 	<notes>
 		<!--type:种类 ; beat:小节数:拍数:几分音符; x:相对x位置 ; multi:多押特效-->

@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{2CDF63FF-E109-3912-4D41-147451CA3E69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -75,7 +76,6 @@
     <Compile Include="Assets\Scripts\STRlantian\Util\STransformer.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Block\ABlock.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Pane\HexPane.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\Block\HexBlock.cs" />
   </ItemGroup>
   <ItemGroup>

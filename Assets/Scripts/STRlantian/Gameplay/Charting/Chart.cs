@@ -84,7 +84,16 @@ namespace STRlantian.Gameplay.Charting
                 switch(attList[0].Value.ToLower())
                 {
                     case "hex":
-                        blockList.Add(new Hex)
+                        blockList.Add(new HexBlock(attList));
+                        break;
+                    /*
+                case "tetra":
+                    blockList.Add(new TetraBlock(attList));
+                    break;
+                    ...
+                    */
+                    default:
+                        throw new System.Exception("Invalid block type!");
                 }
             }
         }
