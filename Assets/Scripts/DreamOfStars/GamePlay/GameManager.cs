@@ -164,9 +164,6 @@ public class GameManager : MonoBehaviour
         string[] paneName = new string[] { "left", "right", "top", "bottom", "front", "back" }; // 各面名称
 
         List<Pane> paneList = new List<Pane>();
-        JudgeLine testJudgeLine = new JudgeLine() {
-            Vertices = {0,1}
-        };
 
         // 硬核建面
         for (int i = 0; i < 6; i++)
@@ -215,21 +212,21 @@ public class GameManager : MonoBehaviour
 
             if (i == 4)
             {
-                paneList[i].StoryBoard.Add(new TimeNode()
+                paneList[i].Lines.Add(new JudgeLine()
                 {
-                    ID = "PanePos_X",
-                    To = -400,
-                    Offset = 10f,
-                    Duration = 5f
+                    Vertices = {0 , 1}
                 });
-                paneList[i].StoryBoard.Add(new TimeNode()
+                paneList[i].Lines.Add(new JudgeLine()
                 {
-                    ID = "PanePos_Y",
-                    To = -400,
-                    Offset = 10f,
-                    Duration = 5f
+                    Vertices = {1, 2}
                 });
-                paneList[i].Lines.Add(testJudgeLine);
+            }
+            if(i == 2)
+            {
+                paneList[i].Lines.Add(new JudgeLine()
+                {
+                    Vertices = { 0,1,2,3,0 }
+                });
             }
         }
 

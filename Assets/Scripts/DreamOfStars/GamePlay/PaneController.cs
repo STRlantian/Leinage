@@ -19,7 +19,7 @@ public class PaneController : MonoBehaviour
     public void InitPane(Pane p)
     {
         transform.AddComponent<MeshFilter>().mesh=MakeMesh(p);
-        transform.AddComponent<MeshRenderer>().material = MakeMaterial();
+        transform.AddComponent<MeshRenderer>().material = MakeMaterial(Color.white,Color.yellow);
         foreach (JudgeLine line in p.Lines)
         {
             MakeJudgeLine(line);
@@ -91,16 +91,21 @@ public class PaneController : MonoBehaviour
         return PaneMesh;
     }
 
-
-    public Material MakeMaterial()
+    /// <summary>
+    /// 生成面的材质
+    /// </summary>
+    /// <param name="mainColor">主要颜色</param>
+    /// <param name="specColor">反射光的颜色</param>
+    /// <param name="emissionColor">自发光颜色</param>
+    /// <returns></returns>
+    public Material MakeMaterial(Color mainColor, Color specColor, Color? emissionColor = null)
     {
         Material paneMaterial = new Material(Shader.Find("PaneStatic"));
 
-        // TODO: 颜色设置
-        paneMaterial.SetColor("_Color", Color.yellow);
-        paneMaterial.SetColor("_SpecColor", Color.yellow);
-        //paneMaterial.SetColor("_Emission", Color.blue); // 没加场景光源，所以搞个自发光先
-        
+        paneMaterial.SetColor("_Color", mainColor);
+        paneMaterial.SetColor("_SpecColor", specColor);
+        if(emissionColor != null) paneMaterial.SetColor("_Emission", (Color)emissionColor);
+
         return paneMaterial;
     }
 

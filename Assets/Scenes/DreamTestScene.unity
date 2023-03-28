@@ -1259,8 +1259,6 @@ GameObject:
   - component: {fileID: 712556270}
   - component: {fileID: 712556269}
   - component: {fileID: 712556273}
-  - component: {fileID: 712556274}
-  - component: {fileID: 712556275}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1382,50 +1380,6 @@ MonoBehaviour:
   Song: {fileID: 11400000, guid: 0e139848594b1f4418084657edac8b7a, type: 2}
   AudioOffset: 0
   VisualOffset: 0
---- !u!114 &712556274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712556268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9171f72469abc40b5f661454f7b779, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentPane:
-    StoryBoard:
-      TimeNodes: []
-    Name: New Pane
-    Group: 
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Width: 1
-    Height: 1
-    Lines: []
-    Shape: 0
-  ParentGroup: {fileID: 0}
---- !u!114 &712556275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712556268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40512dccbae9d84ca90a75106c0de27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentGroup:
-    StoryBoard:
-      TimeNodes: []
-    Name: 
-    Group: 
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-  ParentGroup: {fileID: 0}
 --- !u!1 &713313584
 GameObject:
   m_ObjectHideFlags: 0

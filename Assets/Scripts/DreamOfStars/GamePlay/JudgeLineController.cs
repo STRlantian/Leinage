@@ -29,7 +29,8 @@ public class JudgeLineController : MonoBehaviour
     public void InitJudgeLine(JudgeLine l)
     {
         CurrentLine = l;
-        CurrentLineRenderer = gameObject.AddComponent<LineRenderer>();
+        CurrentLineRenderer = new GameObject(l.Name).AddComponent<LineRenderer>();
+        CurrentLineRenderer.transform.parent = transform;
         CurrentLineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         CurrentLineRenderer.positionCount = CurrentLine.Vertices.Count;
         CurrentLineRenderer.startColor = Color.white;
@@ -50,7 +51,7 @@ public class JudgeLineController : MonoBehaviour
 [System.Serializable]
 public class JudgeLine : AStoryBoard, IDeepCloneable<JudgeLine>
 {
-    public string Name;
+    public string Name = "Judge Line";
 
     public List<NoteObject> Notes = new List<NoteObject>();
 
