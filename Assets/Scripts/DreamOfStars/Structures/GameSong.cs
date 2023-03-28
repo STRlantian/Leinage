@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DreamOfStars.GamePlay;
 
+[CreateAssetMenu(menuName = "DreamOfStars/GameSong")]
 public class GameSong : ScriptableObject
 {
     public string SongName;
@@ -11,6 +12,7 @@ public class GameSong : ScriptableObject
 
     public string FilePath;
     public AudioClip Clip;
+    public SongTimer Timer = new SongTimer(60); // Ä¬ÈÏBPM 60
     
     public List<ChartMeta> Charts=new List<ChartMeta>();
 }

@@ -124,6 +124,6 @@ namespace STRlantian.Gameplay.Note
             */
         }
 
-        protected abstract void JudgeNote();
+        //protected abstract void JudgeNote();
     }
 }
