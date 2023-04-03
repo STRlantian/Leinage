@@ -1,5 +1,4 @@
-﻿using STRlantian.Gameplay.Note;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
@@ -9,9 +8,15 @@ namespace STRlantian.Gameplay.Note
     {
         public NoteDrag(List<XAttribute> attList) : base(attList) { }
 
-        protected sealed override void JudgeNote()
+        protected override void JudgeNote(Touch touch)
         {
-            Touch touch = 
+            if(touch.phase == TouchPhase.Stationary
+                || touch.phase == TouchPhase.Moved
+                || touch.phase == TouchPhase.Began)
+            {
+                //然后判断线上
+                PlayHitEffect();
+            }
         }
     }
 }

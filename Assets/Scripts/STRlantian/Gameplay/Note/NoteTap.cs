@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Note
 {
-    public sealed partial class NoteTap : ANote
+    public class NoteTap : ANote
     {
         public NoteTap(List<XAttribute> attList) : base(attList) { }
 
@@ -25,6 +25,11 @@ namespace STRlantian.Gameplay.Note
         {
 
             base.TriggerNote();
+        }
+
+        protected override void JudgeNote(Touch touch)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
