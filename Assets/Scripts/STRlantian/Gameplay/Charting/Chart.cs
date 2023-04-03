@@ -61,7 +61,7 @@ namespace STRlantian.Gameplay.Charting
                 foreach(int i in Enum.GetValues(typeof(NoteTypes)))
                 {
                 }
-                noteList.Enqueue(note);
+                //noteList.Enqueue(note);
             }
         }
 

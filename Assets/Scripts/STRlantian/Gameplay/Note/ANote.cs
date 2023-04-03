@@ -124,11 +124,15 @@ namespace STRlantian.Gameplay.Note
             */
         }
 
+<<<<<<< HEAD
         protected abstract void JudgeNote(Touch touch);
 
         protected void PlayHitEffect()
         {
 
         }
+=======
+        //protected abstract void JudgeNote();
+>>>>>>> 1aef71bb3d4366297ade331e71fff7322ee4d1fc
     }
 }

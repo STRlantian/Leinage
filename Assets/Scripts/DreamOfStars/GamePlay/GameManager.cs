@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("物体")]
     public Camera MainCamera;
-    public Transform PaneContainer;
+    //public Transform PaneContainer; 暂时不用了，动态生成了
 
     [Header("音乐")]
     public AudioSource GameAudioPlayer;
@@ -51,6 +53,38 @@ public class GameManager : MonoBehaviour
         yield return null;
 
         _testCode();
+
+        // 读入 PaneGroup 信息
+        Dictionary<string, PaneGroupController> groupControllers = new Dictionary<string, PaneGroupController>();
+        foreach (PaneGroup group in CurrentChart.PaneGroups)
+        {
+            PaneGroupController gc = new GameObject(group.Name).AddComponent<PaneGroupController>();
+            gc.SetGroup(group);
+            groupControllers.Add(group.Name, gc);
+        }
+
+        // 循环遍历 PaneGroup，确认 PaneGroup 之间的父子关系
+        foreach (KeyValuePair<string, PaneGroupController> pair in groupControllers)
+        {
+            string parent = pair.Value.CurrentGroup.Group;
+            if (!string.IsNullOrEmpty(parent))
+            {
+                pair.Value.transform.SetParent(groupControllers[parent].transform);
+                pair.Value.ParentGroup = groupControllers[parent];
+            }
+        }
+
+        // 循环遍历 PaneList，确认 Pane 和 PaneGroup 的父子关系
+        foreach (Pane p in CurrentChart.PaneList)
+        {
+            PaneController pp = new GameObject(p.Name).AddComponent<PaneController>();
+            if (!string.IsNullOrEmpty(p.Group))
+            {
+                pp.transform.SetParent(groupControllers[p.Group].transform);
+                pp.ParentGroup = groupControllers[p.Group];
+            }
+            pp.InitPane(p);
+        }
 
         IsPlaying = true;
     }
@@ -120,12 +154,151 @@ public class GameManager : MonoBehaviour
         //controller.StoryBoard.Add(test2);
         //controller.StoryBoard.Add(test3);
 
-
         //controller.SetCameraCenter(10f, 6f, 1000f, EaseFunction.Quartic);
+
+        #region cubeTestCode
+        float cubeSize = 200f;
+        // TODO: 这里的常量可能有bug，还没来得及细看
+        float[,] position3D = new float[,] { { -cubeSize / 2, 0, 0 }, { cubeSize / 2, 0, 0 }, { 0, cubeSize / 2, 0 }, { 0, -cubeSize / 2, 0 }, { 0, 0, -cubeSize / 2 }, { 0, 0, cubeSize / 2 } }; // 初始位置数组
+        float[,] rotation3D = new float[,] { { 0, -90, 0 }, { 0, 90, 0 }, { -90, 0, 0 }, { 90, 0, 0 }, { 180, 0, 0 }, { 0, 0, 0 } }; // 初始旋转方向
+        string[] paneName = new string[] { "left", "right", "top", "bottom", "front", "back" }; // 各面名称
+
+        List<Pane> paneList = new List<Pane>();
+
+        // 硬核建面
+        for (int i = 0; i < 6; i++)
+        {
+            paneList.Add(new Pane()
+            {
+                Position = new Vector3(position3D[i, 0], position3D[i, 1], position3D[i, 2]),
+                Rotation = new Vector3(rotation3D[i, 0], rotation3D[i, 1], rotation3D[i, 2]),
+                Width = cubeSize,
+                Height = cubeSize,
+                Name = paneName[i],
+                Group="CubeGroup"
+            });
+
+            // 要展示的动效(x
+            paneList[i].StoryBoard.Add(new TimeNode()
+            {
+                ID = "PanePos_Z",
+                To = 0,
+                Offset = 5,
+                Duration = 5f,
+                EaseFunc = EaseFunction.Cubic,
+                EaseMode = EaseMode.InOut
+            });
+            paneList[i].StoryBoard.Add(new TimeNode()
+            {
+                ID = "PaneRot_Z",
+                To = 0,
+                Offset = 5,
+                Duration = 5f
+            });
+            paneList[i].StoryBoard.Add(new TimeNode()
+            {
+                ID = "PaneRot_X",
+                To = 0,
+                Offset = 5,
+                Duration = 5f
+            });
+            paneList[i].StoryBoard.Add(new TimeNode()
+            {
+                ID = "PaneRot_Y",
+                To = 0,
+                Offset = 5,
+                Duration = 5f
+            });
+
+            if (i == 4)
+            {
+                paneList[i].Lines.Add(new JudgeLine()
+                {
+                    Vertices = {0 , 1}
+                });
+                paneList[i].Lines.Add(new JudgeLine()
+                {
+                    Vertices = {1, 2}
+                });
+            }
+            if(i == 2)
+            {
+                paneList[i].Lines.Add(new JudgeLine()
+                {
+                    Vertices = { 0,1,2,3,0 }
+                });
+            }
+        }
+
+
+        #endregion
+
+        paneList.Add(new Pane()
+        {
+            Position = new Vector3(500,500,0),
+            Rotation = new Vector3(0,0,0),
+            Width = cubeSize*2,
+            Height = cubeSize*2,
+            Name = "Single Pane",
+            Group = "CubeCubeGroup"
+        });
+
+        List<PaneGroup> groups= new List<PaneGroup>() { 
+            new PaneGroup()
+            {
+                Name = "CubeGroup",
+                Position = Vector3.zero,
+                Rotation = Vector3.zero,
+                Group="CubeCubeGroup"
+            },
+            new PaneGroup()
+            {
+                Name="CubeCubeGroup",
+                Position = Vector3.zero,
+                Rotation = Vector3.zero
+            }
+        };
+
+
+        groups[0].StoryBoard.Add(new TimeNode()
+        {
+            ID = "GroupRot_X",
+            To = 360,
+            Offset = 10,
+            Duration = 4f
+        });
+        groups[0].StoryBoard.Add(new TimeNode()
+        {
+            ID = "GroupPos_X",
+            To = 720,
+            Offset = 10,
+            Duration = 4f
+        });
+
+        groups[1].StoryBoard.Add(
+            new TimeNode()
+            {
+                ID = "GroupRot_Y",
+                To = 720,
+                Offset = 10,
+                Duration = 4f
+            });
+        //cubeController.CurrentGroup.StoryBoard.Add(new TimeNode()
+        //{
+        //    ID = "GroupPos_Y",
+        //    To = 360,
+        //    Offset = 10,
+        //    Duration = 4f
+        //});
+
+
+
 
         CurrentChart = new DreamOfStars.GamePlay.Chart()
         {
             Camera = controller,
+            PaneGroups = groups,
+            PaneList = paneList
         };
     }
 

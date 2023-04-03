@@ -14,11 +14,11 @@ public class TimeNode
     /// </summary>
     public string ID;
     /// <summary>
-    /// 在音乐中的偏移，可以理解为时间
+    /// 在音乐中的偏移，对应的是beat
     /// </summary>
     public float Offset;
     /// <summary>
-    /// 该时间节点持续的时间
+    /// 该时间节点持续的时间，单位为beat
     /// </summary>
     public float Duration;
     /// <summary>
@@ -57,36 +57,107 @@ public class TimeNode
 
 
 /// <summary>
-/// 节拍数和采样数转换脚本
+/// 游戏中BPM、时间、节拍的相关类
 /// </summary>
 public class SongTimer
 {
-    public AudioSource au{get;set;} // 音乐文件
-    public float bpm{get;set;}     // 每分钟节拍数
-    public int div{get;set;}       // 每拍 tick 数
-    public int offset{get;set;}    // 音乐和游戏节拍的偏移量（单位：毫秒）
+    public List<BPMNode> BPMNodes=new List<BPMNode>();
+
+    public SongTimer(float bpm)
+    {
+        BPMNodes.Add(new BPMNode(bpm,0));
+    }
+
+    public SongTimer(float bpm,float offset) { 
+        BPMNodes.Add(new BPMNode(bpm,offset));
+    }
+
+    /// <summary>
+    /// 根据给出的时间返回当前所处节拍
+    /// </summary>
+    /// <param name="sec"></param>
+    /// <returns></returns>
+    public float SecToBeat(float sec)
+    {
+        if (BPMNodes.Count == 0) return float.NaN;
+        float beat = 0;
+        for(int i = 0; i < BPMNodes.Count; i++)
+        {
+            float totalBeats = (sec - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
+            if(i+1 < BPMNodes.Count)
+            {
+                float curBeats= (BPMNodes[i+1].Offset - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
+                if (totalBeats <= curBeats) return beat + totalBeats;
+                beat += curBeats;
+            }
+            else
+            {
+                return beat + totalBeats;
+            }
+        }
+        return beat;
+    }
+
+    /// <summary>
+    /// 根据给出的节拍数返回对应的时间
+    /// </summary>
+    /// <param name="beat"></param>
+    /// <returns></returns>
+    public float BeatToSec(float beat) {
+        if (BPMNodes.Count == 0) return float.NaN;
+        for(int i = 0;i < BPMNodes.Count; i++)
+        {
+            BPMNode bn= BPMNodes[i];
+            float totalSec = beat * (60 / BPMNodes[i].BPM)+BPMNodes[i].Offset;
+            if (i + 1 < BPMNodes.Count)
+            {
+                float curBeat = (BPMNodes[i + 1].Offset - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
+                if (beat <= curBeat) return totalSec;
+                beat -= curBeat;
+            }
+            else return totalSec;
+        }
+        return 0;
+    }
 
     // 将采样数转换为节拍数（rounded down to the nearest beat）
     // 参数：
     //     sample: 音频中的采样数
     // 返回：
     //     以 div 为单位的节拍数
-    public int SampleToBeat(int sample){
-        float secPerBeat = 60.0f / bpm;
-        float secPerDiv = secPerBeat / div;
-        float divs = (float)sample * au.clip.frequency / div / AudioSettings.outputSampleRate / secPerDiv; 
-        return Mathf.FloorToInt(divs);
-    } 
+    //public int SampleToBeat(int sample){
+    //    float secPerBeat = 60.0f / bpm;
+    //    float secPerDiv = secPerBeat / div;
+    //    float divs = (float)sample * au.clip.frequency / div / AudioSettings.outputSampleRate / secPerDiv; 
+    //    return Mathf.FloorToInt(divs);
+    //} 
     
-    // 将节拍数转换为采样数
-    // 参数：
-    //     beat: 以 div 为单位的节拍数
-    // 返回：
-    //     音频中的采样数
-    public int BeatToSample(int beat){
-        float secPerBeat = 60.0f / bpm;
-        float secPerDiv = secPerBeat / div;
-        float secs = (float)beat * secPerDiv;
-        return Mathf.FloorToInt((secs + (float)offset / 1000.0f) * AudioSettings.outputSampleRate / au.clip.frequency);
+    //// 将节拍数转换为采样数
+    //// 参数：
+    ////     beat: 以 div 为单位的节拍数
+    //// 返回：
+    ////     音频中的采样数
+    //public int BeatToSample(int beat){
+    //    float secPerBeat = 60.0f / bpm;
+    //    float secPerDiv = secPerBeat / div;
+    //    float secs = (float)beat * secPerDiv;
+    //    return Mathf.FloorToInt((secs + (float)offset / 1000.0f) * AudioSettings.outputSampleRate / au.clip.frequency);
+    //}
+}
+
+/// <summary>
+/// BPM变换的节点
+/// </summary>
+[System.Serializable]
+public class BPMNode
+{
+    public float Offset;
+    public float BPM;
+    public int Div = 4;
+
+    public BPMNode(float bpm,float offset)
+    {
+        Offset = offset;
+        BPM = bpm;
     }
 }
