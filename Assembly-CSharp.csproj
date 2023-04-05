@@ -57,11 +57,8 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\LineRenderer.cs" />
-=======
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\ChartManager.cs" />
->>>>>>> 1aef71bb3d4366297ade331e71fff7322ee4d1fc
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\LineRenderer.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\SChartIO.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\EventNode.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\GameSong.cs" />
