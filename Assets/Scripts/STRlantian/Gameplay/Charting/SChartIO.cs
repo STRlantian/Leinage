@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using UnityEngine;
@@ -10,8 +11,6 @@ namespace STRlantian.Gameplay.Charting
     /// </summary>
     public static partial class SChartIO
     {
-        private const string PATH = "Scripts\\Charts";          //恒定的谱面文件夹
-
         /// <summary>
         /// ReadChart(): 从文件读取铺面xml文件
         /// </summary>
@@ -19,12 +18,11 @@ namespace STRlantian.Gameplay.Charting
         /// <param name="diff">5个难度 RL-MD-SP-CL-QS</param>
         /// <returns>对应的铺面文件</returns>
         /// <exception cref="System.Exception">铺面文件找不到</exception>
-        /// 附: RL = Relax; MD = Moderate; SP = Super; CL = Challenge; QS = ?
         public static Chart ReadChart(string name, int diff)
         {
             try
             {
-                XDocument file = new XDocument($"{PATH}\\{name}\\{name}_{diff}.xml");
+                XDocument file = new XDocument($"{Application.dataPath}\\{name}\\{name}_{diff}.xml");
                 return new Chart(file);
             }
             catch(IOException)

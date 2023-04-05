@@ -1,21 +1,28 @@
-﻿using System.Collections;
+﻿using STRlantian.Gameplay.Block;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
-namespace Assets.Scripts.STRlantian.Gameplay.Block
+namespace STRlantian.Gameplay.Block
 {
-    public class LineRenderer : MonoBehaviour
+    public class LineRenderer : ALMComponent
     {
         private float length;                   //就是note里面那个x的取值范围 输入的数字是指正负都有 
-        public float Length { get; }                                        
+        public float Length { get; }
+        private float height;
+        public float Height { get; }
+        public bool pointMode = false;
 
-        void Start()
+        public LineRenderer(string id, List<XAttribute> attList) : base(id, attList) {}
+
+        public void SummonNote(float x)
         {
 
         }
 
-        void Update()
+        public override void Init(List<XAttribute> attList)
         {
-
         }
     }
 }

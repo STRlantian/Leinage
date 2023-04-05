@@ -1,6 +1,5 @@
 ﻿using STRlantian.GameEffects;
-using STRlantian.Gameplay.Block.Block;
-using STRlantian.Gameplay.Block.Pane;
+using STRlantian.Gameplay.Charting;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Note
 {
-    public enum NoteTypes
+    public enum NoteType
     {
         TAP,
         FLICK,
@@ -19,10 +18,10 @@ namespace STRlantian.Gameplay.Note
 
     public abstract partial class ANote : MonoBehaviour
     {
-        public NoteTypes type;
+        public NoteType type;
         public Pane attachedPane;
         public float speed;
-        public ushort[] beat;
+        public ChartBeat beat;
 
         [SerializeField]
         protected BoxCollider box;
@@ -30,7 +29,6 @@ namespace STRlantian.Gameplay.Note
         private readonly bool isMulti;
         private bool isOut;
         private HitEffect hit;
-        private ABlock block;
         private struct RotationInfo
         {
             public static int[] maxs;
@@ -56,13 +54,7 @@ namespace STRlantian.Gameplay.Note
 
         protected virtual void InitAttributes(List<XAttribute> attList)
         {
-            string tp = attList[0].Value.ToLower();
-            type = tp.Equals("tap") ? NoteTypes.TAP
-                 : tp.Equals("flick") ? NoteTypes.FLICK
-                 : tp.Equals("drag") ? NoteTypes.DRAG
-                 : tp.Equals("hold") ? NoteTypes.HOLD
-                 : throw new Exception("Invalid note type!");
-            beat = Array.ConvertAll(attList[1].Value.Split(':'), ushort.Parse);
+            //beat = Array.ConvertAll(attList[1].Value.Split(':'), ushort.Parse);
             /*
             attachedPane = new APane();
             attachedPane = pn.Equals("A") ? PaneType.A

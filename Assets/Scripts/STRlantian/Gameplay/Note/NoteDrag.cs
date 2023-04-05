@@ -10,10 +10,11 @@ namespace STRlantian.Gameplay.Note
     {
         public NoteDrag(List<XAttribute> attList) : base(attList) { }
 
-        //protected sealed override void JudgeNote()
-        //{
-        //    //Touch touch = 
-        //    throw NotImplementedException;
-        //}
+        /*
+        protected sealed override void JudgeNote()
+        {
+            //Touch touch = 
+            throw NotImplementedException;
+        } */
     }
 }

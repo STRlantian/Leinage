@@ -1,4 +1,4 @@
-﻿using STRlantian.Gameplay.Block.Block;
+﻿using STRlantian.Gameplay.Block;
 using STRlantian.Gameplay.Note;
 using System;
 using System.Collections.Generic;
@@ -19,8 +19,8 @@ namespace STRlantian.Gameplay.Charting
             get { return noteList; }
         }
 
-        private List<ABlock> blockList = new(10);
-        public List<ABlock> BlockList
+        private List<BlockRenderer> blockList = new(10);
+        public List<BlockRenderer> BlockList
         {
             get { return blockList; }
         }
@@ -45,7 +45,6 @@ namespace STRlantian.Gameplay.Charting
         {
             info = new(new(chartFile.Element("info").Attributes()));
             ProcessBlocks(new(chartFile.Elements("blocks")));
-            ProcessNotes(new(chartFile.Elements("notes")));
         }
 
         private void ProcessNotes(List<XElement> notes)
@@ -55,23 +54,30 @@ namespace STRlantian.Gameplay.Charting
             {
                 ANote note;
                 attList = new(el.Attributes());
-
-                NoteTypes tp = Enum.Parse<NoteTypes>(attList[0].Value.ToUpper());
-                
-                foreach(int i in Enum.GetValues(typeof(NoteTypes)))
-                {
-                }
-                //noteList.Enqueue(note);
+                NoteType tp = Enum.Parse<NoteType>(attList[0].Value.ToUpper());
+                note = tp == NoteType.TAP ? new NoteTap(attList)
+                    : tp == NoteType.FLICK ? new NoteFlick(attList)
+                    : tp == NoteType.DRAG ? new NoteDrag(attList)
+                    : tp == NoteType.HOLD ? new NoteHold(attList)
+                    : throw new Exception("Invalid Note Type");
+                noteList.Enqueue(note);
             }
         }
 
         private void ProcessBlocks(List<XElement> blocks)
         {
             List<XAttribute> attList = new(3);
-            foreach(XElement el in blocks)
+            foreach (XElement el in blocks)
             {
+                BlockRenderer block;
                 attList = new(el.Attributes());
-            }
+                block = new(el.Value, attList);
+            } 
+        }
+
+        private void ProcessPanes(BlockRenderer block, List<XElement> panes)
+        {
+            List<XAttribute> atList = new(3);
         }
     }
 

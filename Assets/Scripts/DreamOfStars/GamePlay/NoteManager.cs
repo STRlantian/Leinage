@@ -18,27 +18,19 @@ public class NoteManager : MonoBehaviour
     }
 }
 
-public enum NoteType
-{
-    Tap,
-    Drag,
-    Hold,
-    Flick
-}
-
 [System.Serializable]
 public class NoteObject:AStoryBoard, IDeepCloneable<NoteObject>
 {
     public NoteType noteType;
     public float Offset = 0;
     
-    // Î»ÖÃºÍ´óĞ¡¿ØÖÆ
+    // ä½ç½®å’Œå¤§å°æ§åˆ¶
     /// <summary>
-    /// ÊÓÎª¾àÀëÅĞ¶¨Ïß×î×ó¶Ë¶¥µãÎ»ÖÃ£¬¹éÒ»»¯
+    /// è§†ä¸ºè·ç¦»åˆ¤å®šçº¿æœ€å·¦ç«¯é¡¶ç‚¹ä½ç½®ï¼Œå½’ä¸€åŒ–
     /// </summary>
     public float Position;
     /// <summary>
-    /// Note ³¤¶È£¬¹éÒ»»¯£¬1ÎªÅĞ¶¨Ïß³¤¶È
+    /// Note é•¿åº¦ï¼Œå½’ä¸€åŒ–ï¼Œ1ä¸ºåˆ¤å®šçº¿é•¿åº¦
     /// </summary>
     public float Length;
 
@@ -63,7 +55,7 @@ public class NoteObject:AStoryBoard, IDeepCloneable<NoteObject>
 
         
     public NoteObject DeepClone() {
-        // TODO£º»¹Ã»Ğ´
+        // TODOï¼šè¿˜æ²¡å†™
         return this;
     }
 }

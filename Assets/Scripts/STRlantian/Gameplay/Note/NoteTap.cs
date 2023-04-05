@@ -26,10 +26,10 @@ namespace STRlantian.Gameplay.Note
 
             base.TriggerNote();
         }
-
+        /*
         protected override void JudgeNote(Touch touch)
         {
             throw new System.NotImplementedException();
-        }
+        } */
     }
 }
