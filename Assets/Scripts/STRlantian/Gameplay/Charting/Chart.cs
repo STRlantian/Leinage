@@ -1,4 +1,5 @@
-﻿using STRlantian.Gameplay.Block;
+﻿using DreamOfStars.GamePlay;
+using STRlantian.Gameplay.Block;
 using STRlantian.Gameplay.Note;
 using System;
 using System.Collections.Generic;
@@ -13,23 +14,11 @@ namespace STRlantian.Gameplay.Charting
     /// </summary>
     public partial class Chart
     {
-        private Queue<ANote> noteList = new(50);
         public Queue<ANote> NoteList
-        {
-            get { return noteList; }
-        }
+        { get; private set; }
 
-        private List<BlockRenderer> blockList = new(10);
-        public List<BlockRenderer> BlockList
-        {
-            get { return blockList; }
-        }
-
-        private ChartBasicInfo info;                  //谱面基本信息
-        public ChartBasicInfo BasicInfo
-        {
-            get { return info; }
-        }
+        public List<BlockRenderer> BlockList { get; private set; }
+        public ChartBasicInfo BasicInfo { get; private set; }
 
         /// <summary>
         /// 构造方法: 从一个文件读取 读取过程发生在类ChartIO 解析过程在此类
@@ -43,10 +32,15 @@ namespace STRlantian.Gameplay.Charting
 
         private void LoadChartFile(XDocument chartFile)
         {
-            info = new(new(chartFile.Element("info").Attributes()));
-            ProcessBlocks(new(chartFile.Elements("blocks")));
+            XElement chart = chartFile.Element("chart");
+            BasicInfo = new ChartBasicInfo(new List<XAttribute>(chart.Element("info").Attributes()));
+            foreach(XElement block in chart.Element("blocks").Elements())
+            {
+                BlockList.Add(new BlockRenderer(block));
+            }
         }
 
+        /*
         private void ProcessNotes(List<XElement> notes)
         {
             List<XAttribute> attList = new(9);
@@ -74,41 +68,43 @@ namespace STRlantian.Gameplay.Charting
                 block = new(el.Value, attList);
             } 
         }
+        
 
         private void ProcessPanes(BlockRenderer block, List<XElement> panes)
         {
             List<XAttribute> atList = new(3);
         }
+        */
     }
 
     public struct ChartBasicInfo
     {
-        public string name;                     //曲名
-        public string level;                    //级别 RL MD SP CL ?
-        public string diff;                     //定数 0 - zeta
-        public Vector2 rhythm;                   //拍号 eg. 2:4 代表四二拍
-        public float bpm;                       //bpm
-        public float speed;                     //全局速度
-        public int time;                        //时间 秒
-        public float offset;                    //延迟 ms 可带小数点
-        public int beat;                        //总拍数
-        public string author;
-        public string illust;
+        public string Name { get; private set; }                     //曲名
+        public string Level { get; private set; }                    //级别 RL MD SP CL ?
+        public string Diff { get; private set; }                     //定数 0 - ζ
+        public Signature Rhythm { get; private set; }                //拍号(struct Signature)
+        public float Bpm { get; private set; }                       //bpm
+        public float Speed { get; private set; }                     //全局速度
+        public int Time { get; private set; }                        //总时间 秒
+        public float Offset { get; private set; }                    //延迟 ms 可带小数点
+        public string Composer { get; private set; }                 //曲师
+        public string Author { get; private set; }                   //谱师
+        public string Illust { get; private set; }                   //画师
 
         public ChartBasicInfo(List<XAttribute> list) 
         {
-            name = list[0].Value;
-            level = list[1].Value;
-            diff = list[2].Value;
+            Name = list[0].Value;
+            Level = list[1].Value;
+            Diff = list[2].Value;
             string[] rhy = list[3].Value.Split(':');
-            rhythm = new Vector2(float.Parse(rhy[0]), float.Parse(rhy[1]));
-            bpm = float.Parse(list[4].Value);
-            speed = float.Parse(list[5].Value);
-            time = int.Parse(list[6].Value);
-            offset = float.Parse(list[7].Value);
-            beat = (int)(time * bpm / 60);
-            author = list[8].Value;
-            illust = list[9].Value;
+            Rhythm = new Signature(beatsPerBar: byte.Parse(rhy[0]), timePerBeat: byte.Parse(rhy[1]));
+            Bpm = float.Parse(list[4].Value);
+            Speed = float.Parse(list[5].Value);
+            Time = int.Parse(list[6].Value);
+            Offset = float.Parse(list[7].Value);
+            Composer = list[8].Value;
+            Author = list[9].Value;
+            Illust = list[10].Value;
         }
     }
 }

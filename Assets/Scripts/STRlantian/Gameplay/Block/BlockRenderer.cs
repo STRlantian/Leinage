@@ -22,14 +22,17 @@ namespace STRlantian.Gameplay.Block
     public class BlockRenderer : ALMComponent
     {
         public bool isBack;                                         //isBack: 是否仅用于表演 是的话就省点占用
-        public BlockType type;                                     //type: 如上枚举
-        public List<PaneRenderer> panes;
+        public BlockType Type { get; private set; };                                     //type: 如上枚举
+        public List<PaneRenderer> Panes { get; private set; };
 
-        public BlockRenderer(string id, List<XAttribute> attList) : base(id, attList) {}
-
-        public override void Init(List<XAttribute> attList)
+        public BlockRenderer(XElement ele) : base(ele) {}
+        public override void Init(XElement ele)
         {
-            type = Enum.Parse<BlockType>(attList[1].Value.ToUpper());
+            Type = Enum.Parse<BlockType>(ele.Attribute("type").Value.ToUpper());
+            foreach (XElement pane in ele.Elements())
+            {
+
+            }
         }
     }
 }

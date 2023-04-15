@@ -9,20 +9,9 @@ namespace STRlantian.Gameplay.Block
     public class PaneRenderer : ALMComponent
     {
         List<LineRenderer> lines;
+        public PaneRenderer(XElement ele) : base(ele) { }
 
-        public PaneRenderer(string id, List<XAttribute> attList) : base(id, attList) {}
-
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
-
-        public override void Init(List<XAttribute> attList)
+        public override void Init(XElement ele)
         {
             
         }

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <chart>
-	<!--name:名字 ; level:难度名 ; diff:定数 ; rhythm:拍号 ; bpm:每分钟节拍 ; time:秒时间 ; offset:延时-->
-	<info name="Test" level="SP" diff="12" rhythm="4:4" bpm="140" speed="1" time="233" offset="20" author="STRlantian" illust="NULL"></info>
+	<!--name:名字 ; level:难度名 ; diff:定数 ; rhythm:拍号(拍数:时值) ; bpm:每分钟节拍 ; time:秒时间 ; offset:延时-->
+	<info name="Test" level="SP" diff="12" rhythm="4:4" bpm="140" speed="1" time="122" offset="20" composer="STRlantian" author="STRlantian" illust="NULL"></info>
 	
 	<blocks>
-		<!--type: 什么几何体 值为面数(tetra0, hex1, octa2, dode3, ico4) ; name:方块名 下面要用-->
+		<!--type: 什么几何体 tetra, hex, octa, dode, ico-->
 		<!--英语小常识: 以上分别对应 正四面体 正六面体 正八面体 正十二面体 正二十面体-->
 		<!--目前来说 只能实现正六面体(然后是四面 等等)-->
 		<!--结构采用嵌套的方式 应该可以看懂吧(?-->
@@ -13,7 +13,7 @@
 			<pane>
 				sample_pane1
 				<line>
-					sample_pane_line1
+					sample_pane1_line1
 					<notes>
 						<!--type:种类(tap0 flick1 drag2 hold3) ; beat:小节数:拍数:几分音符; x:相对x位置 ; multi:多押特效-->
 						<!--block:方块名字 ; pane:面 ; -->
@@ -26,25 +26,25 @@
 				</line>
 
 				<line>
-					sample_pane_line2
+					sample_pane1_line2
 
 				</line>
 
 				<line>
-					sample_pane_line3
+					sample_pane1_line3
 
 				</line>
 
 				<line>
-					sample_pane_line4
+					sample_pane1_line4
 
 				</line>
 			</pane>
+			
 		</block>
 		
 	</blocks>
 
-	
 	<events>
 	</events>
 </chart>

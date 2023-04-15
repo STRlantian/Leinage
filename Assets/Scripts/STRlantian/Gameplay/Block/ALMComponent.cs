@@ -7,14 +7,17 @@ namespace STRlantian.Gameplay.Block
 {
     public abstract class ALMComponent : MonoBehaviour
     {
-        protected string id;
-        public string ID { get; }
+        public string ID { get; private set; }
 
-        public ALMComponent(string id, List<XAttribute> attList)
+        /// <summary>
+        /// 构造一个组件
+        /// </summary>
+        /// <param name="ele">铺面文件里面的对应元素,可能是块面线</param>
+        public ALMComponent(XElement ele)
         {
-            this.id = id;
-            Init(attList);
+            ID = ele.Value;
+            Init(ele);
         }
-        public abstract void Init(List<XAttribute> attList);
+        public abstract void Init(XElement ele);
     }
 }

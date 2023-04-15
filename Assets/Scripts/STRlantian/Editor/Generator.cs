@@ -6,7 +6,7 @@ namespace STRlantian.Editor
 {
     public class Generator : ScriptableObject
     {
-        [MenuItem("Tools/Generator/Notes")]
+        [MenuItem("Tools/LMGenerator/Notes")]
         private static void GenNotes()
         {
             GameObject tap = new GameObject("TapInst");
@@ -17,6 +17,12 @@ namespace STRlantian.Editor
             drg.AddComponent<NoteDrag>();
             GameObject hld = new GameObject("HoldInst");
             hld.AddComponent<NoteHold>();
+        }
+
+        [MenuItem("Tools/LMGenerator/Chart")]
+        private static void GenChart()
+        {
+            
         }
     }
 }

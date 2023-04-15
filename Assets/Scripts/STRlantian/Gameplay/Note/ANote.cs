@@ -21,7 +21,7 @@ namespace STRlantian.Gameplay.Note
         public NoteType type;
         public Pane attachedPane;
         public float speed;
-        public ChartBeat beat;
+        public BeatNode beat;
 
         [SerializeField]
         protected BoxCollider box;

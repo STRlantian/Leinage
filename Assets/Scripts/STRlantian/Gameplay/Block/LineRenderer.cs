@@ -14,14 +14,14 @@ namespace STRlantian.Gameplay.Block
         public float Height { get; }
         public bool pointMode = false;
 
-        public LineRenderer(string id, List<XAttribute> attList) : base(id, attList) {}
+        public LineRenderer(XElement ele) : base(ele) { }
 
         public void SummonNote(float x)
         {
 
         }
 
-        public override void Init(List<XAttribute> attList)
+        public override void Init(XElement ele)
         {
         }
     }
