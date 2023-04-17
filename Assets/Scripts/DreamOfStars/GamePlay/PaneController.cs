@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class PaneController : MonoBehaviour
 {
-    public Pane CurrentPane;
-    public PaneGroupController ParentGroup;
-
+    public Pane currentPane;
+    public PaneGroupController parentGroup;
+    
 
     void Awake() // Awake早于Start
     {
@@ -18,14 +18,10 @@ public class PaneController : MonoBehaviour
 
     public void InitPane(Pane p)
     {
-        transform.AddComponent<MeshFilter>().mesh=MakeMesh(p);
-        transform.AddComponent<MeshRenderer>().material = MakeMaterial(Color.white,Color.yellow);
-        foreach (JudgeLine line in p.Lines)
-        {
-            MakeJudgeLine(line);
-        }
+        transform.AddComponent<MeshFilter>().mesh = MakePaneMesh(p);
+        transform.AddComponent<MeshRenderer>().material = MakePaneMaterial(Color.white,Color.yellow);
 
-        CurrentPane = p;
+        currentPane = p;
     }
 
     // Update is called once per frame
@@ -34,13 +30,17 @@ public class PaneController : MonoBehaviour
         var main = GameManager.MainInstance;
         if (main.IsPlaying)
         {
-            CurrentPane.Update(main.CurrentTime+main.VisualOffset);
-            transform.localPosition = CurrentPane.Position;
-            transform.localEulerAngles = CurrentPane.Rotation;
+            currentPane.Update(main.CurrentTime + main.VisualOffset);
+            transform.localPosition = currentPane.Position;
+            transform.localEulerAngles = currentPane.Rotation;
+            if (currentPane.IsDeforming) // TODO: 怎么判断这个deforming
+            {
+                transform.GetComponent<MeshFilter>().mesh = MakePaneMesh(currentPane);
+            }
         }
     }
 
-    public Mesh MakeMesh(Pane p)
+    public Mesh MakePaneMesh(Pane p)
     {
         Mesh PaneMesh = new Mesh();
 
@@ -86,6 +86,7 @@ public class PaneController : MonoBehaviour
             PaneMesh.triangles = triangles.ToArray();
             PaneMesh.uv = uv.ToArray();
             PaneMesh.RecalculateNormals();
+            PaneMesh.RecalculateBounds();
         }
 
         return PaneMesh;
@@ -98,7 +99,7 @@ public class PaneController : MonoBehaviour
     /// <param name="specColor">反射光的颜色</param>
     /// <param name="emissionColor">自发光颜色</param>
     /// <returns></returns>
-    public Material MakeMaterial(Color mainColor, Color specColor, Color? emissionColor = null)
+    public Material MakePaneMaterial(Color mainColor, Color specColor, Color? emissionColor = null)
     {
         Material paneMaterial = new Material(Shader.Find("PaneStatic"));
 
@@ -109,11 +110,6 @@ public class PaneController : MonoBehaviour
         return paneMaterial;
     }
 
-    public void MakeJudgeLine(JudgeLine line)
-    {
-        JudgeLineController jc = transform.AddComponent<JudgeLineController>();
-        jc.InitJudgeLine(line);
-    }
 }
 
 
@@ -134,95 +130,7 @@ public class PaneManager
     }
 }
 
-[System.Serializable]
-public enum PaneShape
-{
-    Rectangle, // 长方形，含正方形
-    Triangle   // 三角形，真的有必要搞这种谱面吗hhh
-}
 
-[System.Serializable]
-public class Pane : AStoryBoard, IDeepCloneable<Pane>
-{
-    public string Name = "New Pane";
-    public string Group;
-
-    public Vector3 Position;
-    public Vector3 Rotation;
-
-    public float Width=1.0f;
-    public float Height=1.0f;
-
-    public List<JudgeLine> Lines = new List<JudgeLine>();
-
-    public PaneShape Shape = PaneShape.Rectangle;
-    
-    // 3.28 更新，Pane只是作为数据结构，不在此new GameObject并绑定了，Object和Mesh的管理交给PaneController
-
-
-    public new static EventNode[] EventNodes =
-    {
-        new EventNode()
-        {
-            ID="PanePos_X",
-            Name="Pane Position_X",
-            Get=(p)=>((Pane)p).Position.x,
-            Set=(p,a)=>{((Pane)p).Position.x=a; }
-        },
-        new EventNode()
-        {
-            ID="PanePos_Y",
-            Name="Pane Position_Y",
-            Get=(p)=>((Pane)p).Position.y,
-            Set=(p,a)=>{((Pane)p).Position.y=a; }
-        },
-        new EventNode()
-        {
-            ID="PanePos_Z",
-            Name="Pane Position_Z",
-            Get=(p)=>((Pane)p).Position.z,
-            Set=(p,a)=>{((Pane)p).Position.z=a; }
-        },
-        new EventNode()
-        {
-            ID="PaneRot_X",
-            Name="Pane Rotation_X",
-            Get=(p)=>((Pane)p).Rotation.x,
-            Set=(p,a)=>{((Pane)p).Rotation.x=a; }
-        },
-        new EventNode()
-        {
-            ID="PaneRot_Y",
-            Name="Pane Rotation_Y",
-            Get=(p)=>((Pane)p).Rotation.y,
-            Set=(p,a)=>{((Pane)p).Rotation.y=a; }
-        },
-        new EventNode()
-        {
-            ID="PaneRot_Z",
-            Name="Pane Rotation_Z",
-            Get=(p)=>((Pane)p).Rotation.z,
-            Set=(p,a)=>{((Pane)p).Rotation.z=a; }
-        }
-    };
-
-    public Pane DeepClone()
-    {
-        Pane clone = new Pane() { 
-            Name=Name,
-            Group=Group,
-            Position=new Vector3(Position.x,Position.y, Position.z),
-            Rotation=new Vector3(Rotation.x,Rotation.y,Rotation.z),
-            Width=Width,
-            Height=Height,
-            Shape=Shape,
-            StoryBoard=StoryBoard.DeepClone(),
-        };
-        foreach(JudgeLine line in Lines) clone.Lines.Add(line.DeepClone());
-       
-        return clone;
-    }
-}
 
 
 ///// <summary>

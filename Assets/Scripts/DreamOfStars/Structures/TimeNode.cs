@@ -28,7 +28,7 @@ public class TimeNode
     /// <summary>
     /// 事件结束值（如缓动结束位置x）, 必填
     /// </summary>
-    public float To ;
+    public float To;
     /// <summary>
     /// 缓动函数，默认为线性
     /// </summary>
@@ -59,17 +59,18 @@ public class TimeNode
 /// <summary>
 /// 游戏中BPM、时间、节拍的相关类
 /// </summary>
-public class SongTimer
+public class Metronome
 {
-    public List<BPMNode> BPMNodes=new List<BPMNode>();
+    public List<BPMNode> BPMNodes = new List<BPMNode>();
 
-    public SongTimer(float bpm)
+    public Metronome(float bpm)
     {
-        BPMNodes.Add(new BPMNode(bpm,0));
+        BPMNodes.Add(new BPMNode(bpm, 0));
     }
 
-    public SongTimer(float bpm,float offset) { 
-        BPMNodes.Add(new BPMNode(bpm,offset));
+    public Metronome(float bpm, float offset)
+    {
+        BPMNodes.Add(new BPMNode(bpm, offset));
     }
 
     /// <summary>
@@ -81,12 +82,12 @@ public class SongTimer
     {
         if (BPMNodes.Count == 0) return float.NaN;
         float beat = 0;
-        for(int i = 0; i < BPMNodes.Count; i++)
+        for (int i = 0; i < BPMNodes.Count; i++)
         {
             float totalBeats = (sec - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
-            if(i+1 < BPMNodes.Count)
+            if (i + 1 < BPMNodes.Count)
             {
-                float curBeats= (BPMNodes[i+1].Offset - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
+                float curBeats = (BPMNodes[i + 1].Offset - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
                 if (totalBeats <= curBeats) return beat + totalBeats;
                 beat += curBeats;
             }
@@ -103,12 +104,13 @@ public class SongTimer
     /// </summary>
     /// <param name="beat"></param>
     /// <returns></returns>
-    public float BeatToSec(float beat) {
+    public float BeatToSec(float beat)
+    {
         if (BPMNodes.Count == 0) return float.NaN;
-        for(int i = 0;i < BPMNodes.Count; i++)
+        for (int i = 0; i < BPMNodes.Count; i++)
         {
-            BPMNode bn= BPMNodes[i];
-            float totalSec = beat * (60 / BPMNodes[i].BPM)+BPMNodes[i].Offset;
+            BPMNode bn = BPMNodes[i];
+            float totalSec = beat * (60 / BPMNodes[i].BPM) + BPMNodes[i].Offset;
             if (i + 1 < BPMNodes.Count)
             {
                 float curBeat = (BPMNodes[i + 1].Offset - BPMNodes[i].Offset) / 60 * BPMNodes[i].BPM;
@@ -119,30 +121,6 @@ public class SongTimer
         }
         return 0;
     }
-
-    // 将采样数转换为节拍数（rounded down to the nearest beat）
-    // 参数：
-    //     sample: 音频中的采样数
-    // 返回：
-    //     以 div 为单位的节拍数
-    //public int SampleToBeat(int sample){
-    //    float secPerBeat = 60.0f / bpm;
-    //    float secPerDiv = secPerBeat / div;
-    //    float divs = (float)sample * au.clip.frequency / div / AudioSettings.outputSampleRate / secPerDiv; 
-    //    return Mathf.FloorToInt(divs);
-    //} 
-    
-    //// 将节拍数转换为采样数
-    //// 参数：
-    ////     beat: 以 div 为单位的节拍数
-    //// 返回：
-    ////     音频中的采样数
-    //public int BeatToSample(int beat){
-    //    float secPerBeat = 60.0f / bpm;
-    //    float secPerDiv = secPerBeat / div;
-    //    float secs = (float)beat * secPerDiv;
-    //    return Mathf.FloorToInt((secs + (float)offset / 1000.0f) * AudioSettings.outputSampleRate / au.clip.frequency);
-    //}
 }
 
 /// <summary>
@@ -152,8 +130,8 @@ public class SongTimer
 public class BPMNode
 {
     public float Offset;
-    public float BPM;
-    public int Div = 4;
+    public float BPM;  // 注意BPM是指每分钟多少个1/4拍
+    public int Div = 4; // 每小节4拍
 
     public BPMNode(float bpm,float offset)
     {

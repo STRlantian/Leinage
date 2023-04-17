@@ -22,8 +22,8 @@ namespace STRlantian.Gameplay.Block
     public class BlockRenderer : ALMComponent
     {
         public bool isBack;                                         //isBack: 是否仅用于表演 是的话就省点占用
-        public BlockType Type { get; private set; };                                     //type: 如上枚举
-        public List<PaneRenderer> Panes { get; private set; };
+        public BlockType Type { get; private set; }                                     //type: 如上枚举
+        public List<PaneRenderer> Panes { get; private set; }
 
         public BlockRenderer(XElement ele) : base(ele) {}
         public override void Init(XElement ele)

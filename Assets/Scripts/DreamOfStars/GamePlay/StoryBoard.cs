@@ -116,9 +116,10 @@ public abstract class AStoryBoard
                 while (true)
                 {
                     TimeNode tNode = StoryBoard.FindByID(eNode.ID);
-                    if (tNode == null || (time < tNode.Offset && currentTime < tNode.Offset)) break; // 遍历到还未发生的时间节点，直接跳出
+                    if (tNode == null || (time < tNode.Offset && currentTime < tNode.Offset)) break; // 遍历到还未发生的时间节点
                     else if (time < tNode.Offset + tNode.Duration)
                     {
+                        eNode.OnProc?.Invoke(this);
                         // 正好处于一个时间节点的事件过程中
                         if (!float.IsNaN(tNode.From)) currentValues[eNode.ID]=value=(float)tNode.From;
                         Ease ease = Ease.EasesFuncDict[tNode.EaseFunc];
@@ -133,9 +134,10 @@ public abstract class AStoryBoard
                         // 处理已经经过的时间节点
                         currentValues[eNode.ID] = value = tNode.To;
                         StoryBoard.TimeNodes.Remove(tNode);
+                        eNode.OnFinish?.Invoke(this);
                     }
                 }
-                eNode.Set(this, value);
+                eNode.Set(this, value); // TODO：这会在对象生命周期中一直调用，可能会占用内存，后续再优化
             }catch (Exception e)
             {
                 Debug.LogError(e.Message); // TODO：更详细的异常说明

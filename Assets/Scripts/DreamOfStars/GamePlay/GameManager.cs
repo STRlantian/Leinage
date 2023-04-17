@@ -1,3 +1,4 @@
+using STRlantian.Gameplay.Note;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -25,6 +26,14 @@ public class GameManager : MonoBehaviour
     [Header("游戏设置")]
     public float AudioOffset;
     public float VisualOffset;
+    public float SyncThreshold = .05f;
+    [Space]
+    public float PerfectWindow = 64;
+    public float GoodWindow = 128;
+    public float BadWindow = 256;
+
+
+    private float previousTime;
 
     public void Awake()
     {
@@ -33,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainInstance=MainInstance==this?null:MainInstance;
+        MainInstance=MainInstance == this ? null : MainInstance;
     }
 
     // Start is called before the first frame update
@@ -50,7 +59,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator InitChart()
     {
-        yield return null;
+        long time = System.DateTime.Now.Ticks;
+        long t;
 
         _testCode();
 
@@ -61,6 +71,13 @@ public class GameManager : MonoBehaviour
             PaneGroupController gc = new GameObject(group.Name).AddComponent<PaneGroupController>();
             gc.SetGroup(group);
             groupControllers.Add(group.Name, gc);
+
+            t = System.DateTime.Now.Ticks;
+            if (t - time > 33e4)
+            {
+                time = t;
+                yield return null;
+            }
         }
 
         // 循环遍历 PaneGroup，确认 PaneGroup 之间的父子关系
@@ -72,19 +89,47 @@ public class GameManager : MonoBehaviour
                 pair.Value.transform.SetParent(groupControllers[parent].transform);
                 pair.Value.ParentGroup = groupControllers[parent];
             }
+
+            t = System.DateTime.Now.Ticks;
+            if (t - time > 33e4)
+            {
+                time = t;
+                yield return null;
+            }
         }
 
         // 循环遍历 PaneList，确认 Pane 和 PaneGroup 的父子关系
         foreach (Pane p in CurrentChart.PaneList)
         {
-            PaneController pp = new GameObject(p.Name).AddComponent<PaneController>();
+            PaneController pc = new GameObject(p.Name).AddComponent<PaneController>();
             if (!string.IsNullOrEmpty(p.Group))
             {
-                pp.transform.SetParent(groupControllers[p.Group].transform);
-                pp.ParentGroup = groupControllers[p.Group];
+                pc.transform.SetParent(groupControllers[p.Group].transform);
+                pc.parentGroup = groupControllers[p.Group];
             }
-            pp.InitPane(p);
+            pc.InitPane(p);
+            // 循环遍历 Pane 的判定线，并生成 Note
+            foreach(JudgeLine l in p.Lines)
+            {
+                JudgeLineController jc = new GameObject(l.name).AddComponent<JudgeLineController>();
+                jc.transform.parent = pc.transform;
+                jc.InitJudgeLine(l);
+                if (jc.isReady)
+                {
+                    t = System.DateTime.Now.Ticks;
+                    if (t - time > 33e4)
+                    {
+                        time = t;
+                        yield return null;
+                    }
+                }
+                else
+                {
+                    yield return new WaitUntil(() => jc.isReady);
+                }
+            }
         }
+
 
         IsPlaying = true;
     }
@@ -95,18 +140,47 @@ public class GameManager : MonoBehaviour
         if(IsPlaying)
         {
             CurrentTime += Time.deltaTime;
-            if(CurrentTime > 0 && CurrentTime<GameAudioPlayer.clip.length) { 
+            if(CurrentTime > 0 && CurrentTime < GameAudioPlayer.clip.length) { 
                 if(!GameAudioPlayer.isPlaying) GameAudioPlayer.Play(); // 播放音乐
+                float preciseTime = GameAudioPlayer.timeSamples / (float)Song.Clip.frequency;
+                if (Mathf.Abs(GameAudioPlayer.time - CurrentTime) > SyncThreshold) GameAudioPlayer.time = CurrentTime;
+                else if (previousTime != preciseTime)
+                {
+                    CurrentTime = preciseTime;
+                    previousTime = preciseTime;
+                }
                 // TODO: 更精准的音乐时间控制
             }
 
             // TODO: 进度条控制
 
             // 相机运动控制
-            CurrentChart.Camera.Update(CurrentTime);
+            CurrentChart.Camera.Update(CurrentTime + AudioOffset + VisualOffset);
             MainCamera.transform.position = CurrentChart.Camera.CameraPivot;
             MainCamera.transform.eulerAngles = CurrentChart.Camera.CameraRotation;
             MainCamera.transform.Translate(Vector3.back * CurrentChart.Camera.PivotDistance);
+
+
+            // 响应触摸事件
+            Dictionary<Touch,NoteController> touchEvents= new Dictionary<Touch,NoteController>();
+            if(!AutoPlay)
+            {
+                foreach(Touch touch in Input.touches)
+                {
+                    if (touch.phase == TouchPhase.Began) touchEvents.Add(touch, null);
+                    else if (touch.phase== TouchPhase.Moved)
+                    {
+                        if (Vector2.SqrMagnitude(touch.deltaPosition) < 100) continue; // 太小的滑动不判断（防止误判
+                        float dir = Mathf.Atan2(touch.deltaPosition.x,touch.deltaPosition.y) * Mathf.Rad2Deg;
+
+                        // TODO: 后续的滑动判定
+                    }
+                    else if (touch.phase==TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                    {
+                        // TODO: 尾判？
+                    }
+                }
+            }
 
         }
     }
@@ -118,7 +192,7 @@ public class GameManager : MonoBehaviour
 
         CameraController controller = new CameraController()
         {
-            CameraPivot = new Vector3(635, 300, -900),
+            CameraPivot = new Vector3(0,0,-10),
             CameraRotation = new Vector3(0, 0, 0),
             PivotDistance = 0
         };
@@ -145,19 +219,19 @@ public class GameManager : MonoBehaviour
             ID = "CameraPivot_Z", // 有bug?
             Duration = 5f,
             Offset = 5f,
-            To = -5f,
+            To = -8f,
             EaseFunc = EaseFunction.Cubic,
             EaseMode = EaseMode.In
         };
 
         //controller.StoryBoard.Add(test1);
         //controller.StoryBoard.Add(test2);
-        //controller.StoryBoard.Add(test3);
+        controller.StoryBoard.Add(test3);
 
         //controller.SetCameraCenter(10f, 6f, 1000f, EaseFunction.Quartic);
 
         #region cubeTestCode
-        float cubeSize = 200f;
+        float cubeSize = 5f;
         // TODO: 这里的常量可能有bug，还没来得及细看
         float[,] position3D = new float[,] { { -cubeSize / 2, 0, 0 }, { cubeSize / 2, 0, 0 }, { 0, cubeSize / 2, 0 }, { 0, -cubeSize / 2, 0 }, { 0, 0, -cubeSize / 2 }, { 0, 0, cubeSize / 2 } }; // 初始位置数组
         float[,] rotation3D = new float[,] { { 0, -90, 0 }, { 0, 90, 0 }, { -90, 0, 0 }, { 90, 0, 0 }, { 180, 0, 0 }, { 0, 0, 0 } }; // 初始旋转方向
@@ -175,57 +249,82 @@ public class GameManager : MonoBehaviour
                 Width = cubeSize,
                 Height = cubeSize,
                 Name = paneName[i],
-                Group="CubeGroup"
+                Group = "CubeGroup"
             });
 
             // 要展示的动效(x
-            paneList[i].StoryBoard.Add(new TimeNode()
+            //paneList[i].StoryBoard.Add(new TimeNode()
+            //{
+            //    ID = "PanePos_Z",
+            //    To = 0,
+            //    Offset = 5,
+            //    Duration = 5f,
+            //    EaseFunc = EaseFunction.Cubic,
+            //    EaseMode = EaseMode.InOut
+            //});
+            //paneList[i].StoryBoard.Add(new TimeNode()
+            //{
+            //    ID = "PaneRot_Z",
+            //    To = 0,
+            //    Offset = 5,
+            //    Duration = 5f
+            //});
+            //paneList[i].StoryBoard.Add(new TimeNode()
+            //{
+            //    ID = "PaneRot_X",
+            //    To = 0,
+            //    Offset = 5,
+            //    Duration = 5f
+            //});
+            //paneList[i].StoryBoard.Add(new TimeNode()
+            //{
+            //    ID = "PaneRot_Y",
+            //    To = 0,
+            //    Offset = 5,
+            //    Duration = 5f
+            //});
+            if (i > 1)
             {
-                ID = "PanePos_Z",
-                To = 0,
-                Offset = 5,
-                Duration = 5f,
-                EaseFunc = EaseFunction.Cubic,
-                EaseMode = EaseMode.InOut
-            });
-            paneList[i].StoryBoard.Add(new TimeNode()
-            {
-                ID = "PaneRot_Z",
-                To = 0,
-                Offset = 5,
-                Duration = 5f
-            });
-            paneList[i].StoryBoard.Add(new TimeNode()
-            {
-                ID = "PaneRot_X",
-                To = 0,
-                Offset = 5,
-                Duration = 5f
-            });
-            paneList[i].StoryBoard.Add(new TimeNode()
-            {
-                ID = "PaneRot_Y",
-                To = 0,
-                Offset = 5,
-                Duration = 5f
-            });
+                paneList[i].StoryBoard.Add(new TimeNode()
+                {
+                    ID = "PaneWidth",
+                    To = 20,
+                    Offset = 4,
+                    Duration = 8
+                });
+            }
 
             if (i == 4)
             {
+                JudgeLine line= new JudgeLine()
+                {
+                    vertices = { 0, 1 }
+                };
+                Note note = new Note()
+                {
+                    noteType = NoteType.TAP,
+                    position = 0,
+                    length = 1
+                };
+                //for(int j=0;j<5; j++)
+                //{
+                //    Note noteClone = note.DeepClone();
+                //    noteClone.offset = j;
+                //    if (j == 1) noteClone.noteType = NoteType.FLICK;
+                //    if (j == 2) noteClone.noteType = NoteType.HOLD;
+                //    line.notes.Add(noteClone);
+                //}
+                paneList[i].Lines.Add(line);
                 paneList[i].Lines.Add(new JudgeLine()
                 {
-                    Vertices = {0 , 1}
-                });
-                paneList[i].Lines.Add(new JudgeLine()
-                {
-                    Vertices = {1, 2}
+                    vertices = {1, 2}
                 });
             }
             if(i == 2)
             {
                 paneList[i].Lines.Add(new JudgeLine()
                 {
-                    Vertices = { 0,1,2,3,0 }
+                    vertices = { 0,1,2,3,0 }
                 });
             }
         }
@@ -263,35 +362,41 @@ public class GameManager : MonoBehaviour
         groups[0].StoryBoard.Add(new TimeNode()
         {
             ID = "GroupRot_X",
-            To = 360,
-            Offset = 10,
+            To = -90,
+            Offset = 5,
+            Duration = 4f,
+            EaseFunc=EaseFunction.Quartic
+        });
+        groups[0].StoryBoard.Add(new TimeNode()
+        {
+            ID = "GroupRot_Y",
+            To = -20,
+            Offset = 5,
             Duration = 4f
         });
         groups[0].StoryBoard.Add(new TimeNode()
         {
-            ID = "GroupPos_X",
-            To = 720,
-            Offset = 10,
+            ID = "GroupRot_Z",
+            To = -20,
+            Offset = 5,
             Duration = 4f
         });
-
-        groups[1].StoryBoard.Add(
-            new TimeNode()
-            {
-                ID = "GroupRot_Y",
-                To = 720,
-                Offset = 10,
-                Duration = 4f
-            });
-        //cubeController.CurrentGroup.StoryBoard.Add(new TimeNode()
+        //groups[0].StoryBoard.Add(new TimeNode()
         //{
-        //    ID = "GroupPos_Y",
-        //    To = 360,
+        //    ID = "GroupPos_X",
+        //    To = 720,
         //    Offset = 10,
         //    Duration = 4f
         //});
 
-
+        //groups[1].StoryBoard.Add(
+        //    new TimeNode()
+        //    {
+        //        ID = "GroupRot_Y",
+        //        To = 720,
+        //        Offset = 10,
+        //        Duration = 4f
+        //    });
 
 
         CurrentChart = new DreamOfStars.GamePlay.Chart()

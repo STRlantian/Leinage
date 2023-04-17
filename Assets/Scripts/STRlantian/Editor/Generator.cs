@@ -6,7 +6,7 @@ namespace STRlantian.Editor
 {
     public class Generator : ScriptableObject
     {
-        [MenuItem("Tools/LMGenerator/Notes")]
+        [MenuItem("Tools/LMGenerator/notes")]
         private static void GenNotes()
         {
             GameObject tap = new GameObject("TapInst");

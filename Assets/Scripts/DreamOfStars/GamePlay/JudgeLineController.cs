@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 
-[RequireComponent(typeof(PaneController))]
 public class JudgeLineController : MonoBehaviour
 {
     public JudgeLine CurrentLine;
     public LineRenderer CurrentLineRenderer;
+
+    public bool isReady=false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,50 +22,54 @@ public class JudgeLineController : MonoBehaviour
         var main = GameManager.MainInstance;
         if (main.IsPlaying)
         {
-            for (int i = 0; i < CurrentLine.Vertices.Count; i++)
+            for (int i = 0; i < CurrentLine.vertices.Count; i++)
             {
-                CurrentLineRenderer.SetPosition(i, transform.TransformPoint(transform.GetComponent<MeshFilter>().mesh.vertices[CurrentLine.Vertices[i]]));
+                CurrentLineRenderer.SetPosition(i, transform.TransformPoint(transform.parent.GetComponent<MeshFilter>().mesh.vertices[CurrentLine.vertices[i]]));
             }
         }
     }
 
     public void InitJudgeLine(JudgeLine l)
     {
+        MakeLine(l);
+        StartCoroutine(AddNote());
+    }
+    private void MakeLine(JudgeLine l)
+    {
         CurrentLine = l;
-        CurrentLineRenderer = new GameObject(l.Name).AddComponent<LineRenderer>();
-        CurrentLineRenderer.transform.parent = transform;
+        // 设置 linerenderer 的属性
+        CurrentLineRenderer = transform.gameObject.AddComponent<LineRenderer>();
         CurrentLineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
-        CurrentLineRenderer.positionCount = CurrentLine.Vertices.Count;
+        CurrentLineRenderer.positionCount = CurrentLine.vertices.Count;
         CurrentLineRenderer.startColor = Color.white;
         CurrentLineRenderer.endColor = Color.white;
-        CurrentLineRenderer.startWidth = 10.0f;
-        CurrentLineRenderer.endWidth = 10.0f;
-        for(int i = 0; i < CurrentLine.Vertices.Count; i++) {
-            CurrentLineRenderer.SetPosition(i, transform.GetComponent<MeshFilter>().mesh.vertices[CurrentLine.Vertices[i]]);
+        CurrentLineRenderer.startWidth = .1f;
+        CurrentLineRenderer.endWidth = .1f;
+        for (int i = 0; i < CurrentLine.vertices.Count; i++)
+        {
+            CurrentLineRenderer.SetPosition(i, transform.parent.GetComponent<MeshFilter>().mesh.vertices[CurrentLine.vertices[i]]);
         }
 
+        // 计算判定线长度（直接取首尾顶点应该没问题吧？）
+        CurrentLine.lineLength = Vector3.Distance(CurrentLineRenderer.GetPosition(1),CurrentLineRenderer.GetPosition(0));
+       
     }
-}
 
-
-/// <summary>
-/// 判定线，初步定义为判定线和note绑定
-/// </summary>
-[System.Serializable]
-public class JudgeLine : AStoryBoard, IDeepCloneable<JudgeLine>
-{
-    public string Name = "Judge Line";
-
-    public List<NoteObject> Notes = new List<NoteObject>();
-
-    // 该判定线选取的面的顶点索引
-    // TODO: 加个数组越界判断，万一有谱师乱写？
-    public List<int> Vertices = new List<int>();
-
-
-    public JudgeLine DeepClone()
+    private IEnumerator AddNote()
     {
-        // TODO: 还没写
-        return this;
+        foreach(Note note in CurrentLine.notes)
+        {
+            NoteController nc = new GameObject(note.noteType.ToString()).AddComponent<NoteController>();
+            nc.transform.parent = CurrentLineRenderer.transform;
+            nc.InitNote(this, note);
+        }
+        yield return null;
+
+        // TODO: 这里写的是一口气加载全部 Note，以后按时间写依次加载的后续再优化
+
+        isReady = true;
     }
 }
+
+
+

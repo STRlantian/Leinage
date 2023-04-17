@@ -12,7 +12,7 @@ public class GameSong : ScriptableObject
 
     public string FilePath;
     public AudioClip Clip;
-    public SongTimer Timer = new SongTimer(60); // Ä¬ÈÏBPM 60
+    public Metronome Timer = new Metronome(60); // Ä¬ÈÏBPM 60
     
     public List<ChartMeta> Charts=new List<ChartMeta>();
 }
