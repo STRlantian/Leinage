@@ -17,7 +17,7 @@ namespace STRlantian.Gameplay.Charting
         public Queue<ANote> NoteList
         { get; private set; }
 
-        public List<BlockRenderer> BlockList { get; private set; }
+        public Dictionary<string, BlockRenderer> BlockList { get; private set; }
         public ChartBasicInfo BasicInfo { get; private set; }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace STRlantian.Gameplay.Charting
             BasicInfo = new ChartBasicInfo(new List<XAttribute>(chart.Element("info").Attributes()));
             foreach(XElement block in chart.Element("blocks").Elements())
             {
-                BlockList.Add(new BlockRenderer(block));
+                BlockList.Add(block.Value, new BlockRenderer(block));
             }
         }
 

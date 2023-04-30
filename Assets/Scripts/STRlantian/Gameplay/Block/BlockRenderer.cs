@@ -23,15 +23,16 @@ namespace STRlantian.Gameplay.Block
     {
         public bool isBack;                                         //isBack: 是否仅用于表演 是的话就省点占用
         public BlockType Type { get; private set; }                                     //type: 如上枚举
-        public List<PaneRenderer> Panes { get; private set; }
+        public Dictionary<string, PaneRenderer> Panes { get; private set; }
 
         public BlockRenderer(XElement ele) : base(ele) {}
         public override void Init(XElement ele)
         {
             Type = Enum.Parse<BlockType>(ele.Attribute("type").Value.ToUpper());
+            isBack = bool.Parse(ele.Attribute("back").Value.ToLower());
             foreach (XElement pane in ele.Elements())
             {
-
+                Panes.Add(pane.Value, new PaneRenderer(pane));
             }
         }
     }

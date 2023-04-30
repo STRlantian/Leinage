@@ -30,5 +30,10 @@ namespace STRlantian.Gameplay.Charting
                 throw new System.Exception($"Chart {name}\\{name}_{diff}.xml Not Found!");
             }
         }
+
+        public static void PreloadAllCharts()
+        {
+
+        }
     }
 }
