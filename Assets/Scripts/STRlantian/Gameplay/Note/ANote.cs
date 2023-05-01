@@ -18,54 +18,40 @@ namespace STRlantian.Gameplay.Note
 
     public abstract partial class ANote : MonoBehaviour
     {
-        public NoteType type;
-        public Pane attachedPane;
-        public float speed;
-        public BeatNode beat;
+        public NoteType Type { get; private set; };
+        public float Speed { get; set; };
+        public BeatNode Beat { get; private set; };
 
         [SerializeField]
         protected BoxCollider box;
 
-        private readonly bool isMulti;
+        private bool isMulti;
         private bool isOut;
         private HitEffect hit;
-        private struct RotationInfo
-        {
-            public static int[] maxs;
-            public static int[] mins;
-            public static byte target;
-        }
 
-        protected ANote(List<XAttribute> attList)
+        protected ANote(XElement note)
         {
-            InitAttributes(attList);
-
+            Init(note);
         }
 
         void Start()
         {
-            InitRotationInfo();
         }
 
         void Update()
         {
-            ChangeLayer();
         }
 
-        protected virtual void InitAttributes(List<XAttribute> attList)
+        protected virtual void Init(XElement note)
         {
-            //beat = Array.ConvertAll(attList[1].Value.Split(':'), ushort.Parse);
-            /*
-            attachedPane = new APane();
-            attachedPane = pn.Equals("A") ? PaneType.A
-                         : pn.Equals("AX") ? PaneType.AX
-                         : pn.Equals("B") ? PaneType.B
-                         : pn.Equals("BX") ? PaneType.BX
-                         : pn.Equals("C") ? PaneType.C
-                         : pn.Equals("CX") ? PaneType.CX
-                         : throw new Exception("Invalid Pane");
-            //line
-            */
+            //这里的beat被分为四部分 第一部分是小节 第二部分是拍 第三部分是拍号(2参数) 都用冒号分隔
+            //详情可见xml文档
+            //NoteHold会重写这个方法 主要是为了去添加其结束拍节点
+            uint[] beat = Array.ConvertAll(note.Attribute("beat").Value.Split(":"), uint.Parse);
+            Beat = new BeatNode(beat[0], beat[1], new Signature(beat[2], beat[3]));
+            Speed = float.Parse(note.Attribute("speed").Value);
+            isOut = bool.Parse(note.Attribute("out").Value);
+            isMulti = bool.Parse(note.Attribute("multi").Value);
         }
 
         public virtual async void TriggerNote()
@@ -74,48 +60,6 @@ namespace STRlantian.Gameplay.Note
             Destroy(gameObject);
         }
 
-        private void ChangeLayer()
-        {
-            /*
-            float tar;
-            for(int i = 0; i < RotationInfo.maxs.Length; i++)
-            {
-                tar = RotationInfo.target == 'x' ? block.rotation.x :
-                    RotationInfo.target == 'y' ? block.rotation.y : block.rotation.z;
-                GetComponent<SpriteRenderer>().sortingOrder = 
-                    tar < RotationInfo.mins[i] || tar > RotationInfo.maxs[i] ? -1 : 1;
-            }
-            */
-        }
-
-        private void InitRotationInfo()
-        {
-            /*
-            //这段我找不到更好的写法（
-            RotationInfo.maxs = (attachedPane == PaneType.A
-                || attachedPane == PaneType.B
-                || attachedPane == PaneType.C) ? new int[3] { 90, 360, -270 } : new int[2] { -90, 270 };
-            RotationInfo.mins = (attachedPane == PaneType.A
-                || attachedPane == PaneType.B
-                || attachedPane == PaneType.C) ? new int[3] { -90, 270, -360 } : new int[2] { -270, 90 };
-            switch (attachedPane)
-            {
-                case PaneType.A:
-                case PaneType.AX:
-                    RotationInfo.target = 0;
-                    break;
-                case PaneType.B:
-                case PaneType.BX:
-                    RotationInfo.target = 1;
-                    break;
-                case PaneType.C:
-                case PaneType.CX:
-                    RotationInfo.target = 2;
-                    break;
-            }
-            */
-        }
-
         //protected abstract void JudgeNote();
     }
-}
+} 

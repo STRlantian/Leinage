@@ -7,7 +7,7 @@ namespace STRlantian.Gameplay.Note
 {
     public class NoteFlick : ANote
     {
-        public NoteFlick(List<XAttribute> attList) : base(attList) { }
+        public NoteFlick(XElement note) : base(note) { }
         /*
         protected override void JudgeNote(Touch touch)
         {

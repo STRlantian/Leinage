@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using STRlantian.Gameplay.Charting;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace STRlantian.Gameplay.Note
 {
     public class NoteHold : ANote
     {
-        public ushort[] length;
-        public NoteHold(List<XAttribute> attList) : base(attList) { }
+        public BeatNode EndBeat { get; private set; }
+        public NoteHold(XElement note) : base(note) { }
 
-        protected sealed override void InitAttributes(List<XAttribute> attList)
+        protected sealed override void Init(XElement note)
         {
-            base.InitAttributes(attList);
+            base.Init(note);
         }
         /*
         protected override void JudgeNote(Touch touch)

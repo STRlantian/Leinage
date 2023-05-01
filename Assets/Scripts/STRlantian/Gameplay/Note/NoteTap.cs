@@ -8,7 +8,7 @@ namespace STRlantian.Gameplay.Note
 {
     public class NoteTap : ANote
     {
-        public NoteTap(List<XAttribute> attList) : base(attList) { }
+        public NoteTap(XElement note) : base(note) { }
 
         void Start()
         {

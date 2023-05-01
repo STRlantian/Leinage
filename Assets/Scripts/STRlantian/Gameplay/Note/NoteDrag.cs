@@ -8,7 +8,7 @@ namespace STRlantian.Gameplay.Note
 {
     public class NoteDrag : ANote
     {
-        public NoteDrag(List<XAttribute> attList) : base(attList) { }
+        public NoteDrag(XElement note) : base(note) { }
 
         /*
         protected sealed override void JudgeNote()
