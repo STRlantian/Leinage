@@ -20,7 +20,7 @@ namespace STRlantian.Gameplay.Block
 
         }
 
-        public override void Init(XElement ele)
+        protected override void Init(XElement ele)
         {
             ANote tar;
             NoteType tp;

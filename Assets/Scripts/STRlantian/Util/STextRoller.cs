@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace STRlantian.Util
 {
-    public static partial class STextRoller
+    public static class STextRoller
     {
         public static int wait
         {
@@ -18,7 +18,7 @@ namespace STRlantian.Util
             }
         }
 
-        public async static void RollText(Text field, string s)
+        public async static void RollText(this Text field, string s)
         {
             if(!(wait > 0))
             {

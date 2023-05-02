@@ -26,7 +26,7 @@ namespace STRlantian.Gameplay.Block
         public Dictionary<string, PaneRenderer> Panes { get; private set; }
 
         public BlockRenderer(XElement ele) : base(ele) {}
-        public override void Init(XElement ele)
+        protected override void Init(XElement ele)
         {
             Type = Enum.Parse<BlockType>(ele.Attribute("type").Value.ToUpper());
             isBack = bool.Parse(ele.Attribute("back").Value.ToLower());

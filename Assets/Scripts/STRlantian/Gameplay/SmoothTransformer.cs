@@ -8,7 +8,7 @@ namespace Assets.Scripts.STRlantian.Scripts.Gameplay
     /// SmoothTransformer: 平滑移动
     /// </summary>
     /// 要改
-    public partial class SmoothTransformer : MonoBehaviour
+    public class SmoothTransformer : MonoBehaviour
     {
         public Vector2 destination;
         public int time;

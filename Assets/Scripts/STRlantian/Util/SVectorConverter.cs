@@ -6,7 +6,7 @@ namespace STRlantian.Util
     /// SVectorConverter: 用于Vector3和2之间的互相转化 我被逼急了写的类
     /// 主要是z的问题 其实可以考虑整成扩展方法
     /// </summary>
-    public static partial class SVectorConverter
+    public static class SVectorConverter
     {
         /// <summary>
         /// ConvertV3ToV2: 快速转化V3到V2 不损失z

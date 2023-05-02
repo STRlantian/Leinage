@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace STRlantian.Gameplay.Scene
 {
-    public partial class PlayScene : MonoBehaviour
+    public class PlayScene : MonoBehaviour
     {
         public Chart chart;
 

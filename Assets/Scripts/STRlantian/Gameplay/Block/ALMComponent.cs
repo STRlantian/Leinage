@@ -18,6 +18,6 @@ namespace STRlantian.Gameplay.Block
             ID = ele.Value;
             Init(ele);
         }
-        public abstract void Init(XElement ele);
+        protected abstract void Init(XElement ele);
     }
 }
