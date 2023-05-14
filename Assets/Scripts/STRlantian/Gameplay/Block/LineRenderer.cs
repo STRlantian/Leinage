@@ -22,15 +22,16 @@ namespace STRlantian.Gameplay.Block
 
         protected override void Init(XElement ele)
         {
+            Height = float.Parse(ele.Attribute("height").Value);
             ANote tar;
             NoteType tp;
             foreach(XElement note in ele.Elements())
             {
                 tp = System.Enum.Parse<NoteType>(note.Value);
-                tar = tp == NoteType.TAP ? new NoteTap(note)
-                    : tp == NoteType.FLICK ? new NoteFlick(note)
-                    : tp == NoteType.DRAG ? new NoteDrag(note)
-                    : tp == NoteType.HOLD ? new NoteHold(note)
+                tar = tp == NoteType.TAP ? new NoteTap(note, Height)
+                    : tp == NoteType.FLICK ? new NoteFlick(note, Height)
+                    : tp == NoteType.DRAG ? new NoteDrag(note, Height)
+                    : tp == NoteType.HOLD ? new NoteHold(note, Height)
                     : throw new System.Exception("Invalid NoteType");
                 Notes.Enqueue(tar);
             }

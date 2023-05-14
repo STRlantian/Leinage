@@ -8,7 +8,7 @@ namespace STRlantian.Gameplay.Note
     public class NoteHold : ANote
     {
         public BeatNode EndBeat { get; private set; }
-        public NoteHold(XElement note) : base(note) { }
+        public NoteHold(XElement note, float posY) : base(note, posY) { }
 
         protected sealed override void Init(XElement note)
         {

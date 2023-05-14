@@ -1,5 +1,6 @@
 ﻿using STRlantian.GameEffects;
 using STRlantian.Gameplay.Charting;
+using STRlantian.Util;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,32 +19,42 @@ namespace STRlantian.Gameplay.Note
 
     public abstract partial class ANote : MonoBehaviour
     {
-        public NoteType Type { get; private set; };
-        public float Speed { get; set; };
-        public BeatNode Beat { get; private set; };
+        public NoteType Type { get; private set; }
+        public float Speed { get; set; }
+        public BeatNode Beat { get; private set; }
 
         [SerializeField]
-        protected BoxCollider box;
+        public BoxCollider2D box;
+        [SerializeField]
+        public new SpriteRenderer renderer;
+        [SerializeField]
+        public bool tryactive = false;
 
-        private bool isMulti;
-        private bool isOut;
-        private HitEffect hit;
+        protected bool isMulti;
+        protected bool isOut;
+        protected HitEffect hit;
+        protected bool isActive = false;
+        protected float posX, posY;
 
-        protected ANote(XElement note)
+        protected ANote(XElement note, float posY)
         {
+            this.posY = posY;
             Init(note);
         }
 
         void Start()
         {
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0);
         }
 
         void Update()
         {
+
         }
 
         protected virtual void Init(XElement note)
         {
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0);
             //这里的beat被分为四部分 第一部分是小节 第二部分是拍 第三部分是拍号(2参数) 都用冒号分隔
             //详情可见xml文档
             //NoteHold会重写这个方法 主要是为了去添加其结束拍节点
@@ -53,6 +64,7 @@ namespace STRlantian.Gameplay.Note
             Speed = float.Parse(note.Attribute("speed").Value);
             isOut = bool.Parse(note.Attribute("out").Value);
             isMulti = bool.Parse(note.Attribute("multi").Value);
+            posX = float.Parse(note.Attribute("x").Value);
         }
 
         public virtual async void TriggerNote()
@@ -61,6 +73,15 @@ namespace STRlantian.Gameplay.Note
             Destroy(gameObject);
         }
 
+        public void ActiveNote()
+        {
+            if(!isActive)
+            {
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 255);
+                transform.UniformTranslate(new Vector2(transform.position.x, posY), 50);
+                isActive = true;
+            }
+        }
         //protected abstract void JudgeNote(Touch touch);
     }
 } 

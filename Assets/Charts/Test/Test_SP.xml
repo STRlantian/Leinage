@@ -11,7 +11,7 @@
 		<!--back: 是否仅仅用于表演-->
 		<block type="hex" back="false">sample
 			<pane>sample_pane1
-				<line>sample_pane1_line1
+				<line height="10">sample_pane1_line1
 					<!--value:种类(tap0 flick1 drag2 hold3) ; beat:小节数:拍数:拍号; x:相对x位置 ; multi:多押特效-->
 					<note beat="1:1:4:4" x="5" speed="1" out="false" multi="false">tap</note>
 					<note beat="1:2:4:4" x="5" speed="1" out="false" multi="false">drag</note>

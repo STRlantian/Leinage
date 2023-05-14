@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\JudgeLineController.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\LineRenderer.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\LMGameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Materials\PaneStatic.shader" />

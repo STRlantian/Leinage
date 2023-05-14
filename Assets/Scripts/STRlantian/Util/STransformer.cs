@@ -7,10 +7,9 @@ namespace STRlantian.Util
     {
         public static async void UniformTranslate(this Transform trans, Vector2 des, float time)
         {
-            Vector2 step = Vector2.zero;
+            Vector2 step = SVectorConverter.VectorMinus(trans.position, des);
             for(int i = 0; i < time; i++)
             {
-                step = SVectorConverter.VectorMinus(des, trans.position);
                 trans.Translate(step / time);
                 await Task.Delay(1);
             }
