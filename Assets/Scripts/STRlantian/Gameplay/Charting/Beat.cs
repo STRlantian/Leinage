@@ -1,8 +1,12 @@
-﻿namespace STRlantian.Gameplay.Charting
+﻿using System;
+using Unity.VisualScripting;
+
+namespace STRlantian.Gameplay.Charting
 {
     /// <summary>
     /// 拍号结构体
     /// </summary>
+    [Serializable]
     public struct Signature                                    //拍号
     {
         public static readonly Signature SIG_24 = new Signature(4, 2);
@@ -28,6 +32,7 @@
     /// <summary>
     /// 小节 拍子和拍号的一个节点 应该也可以用来表示整首歌的(?)
     /// </summary>
+    [Serializable]
     public struct BeatNode                                   //小节节点
     {
         public Signature Signature { get; private set; }
@@ -50,6 +55,28 @@
             Bar = bar;
             Beat = beat;
             Signature = sig;
+        }
+    }
+
+    [Serializable]
+    public struct BeatRail
+    {
+        public readonly BeatNode EndNode;
+        public readonly Signature Signature;
+        public float CurrentBar { get; private set; }
+        public float CurrentBeat { get; private set; }
+        public BeatRail(BeatNode node)
+        {
+            EndNode = node;
+            Signature = node.Signature;
+            CurrentBar = CurrentBeat = 0;
+        }
+
+        public static BeatRail operator + (BeatRail rail, float beat)
+        {
+            BeatRail n = new BeatRail(rail.EndNode);
+            n.CurrentBeat += beat;
+            return n;
         }
     }
 }

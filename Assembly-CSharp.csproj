@@ -70,17 +70,20 @@
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\CameraController.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\PaneGroup.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\ALMComponent.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\LMGameDebugger.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\JudgeLine.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\PaneGroupController.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\Chart.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\SmoothTransformer.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Note\NoteFlick.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\UI\SafeAreaManager.cs" />
+    <Compile Include="Assets\Scripts\STRlantian\Gameplay\LMGameManager.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Utils\Ease.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Note\ANote.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\PaneController.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\Structures\TimeNode.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\NoteController.cs" />
+    <Compile Include="Assets\Scripts\Game\Debug\STRlantianDebug.cs" />
     <Compile Include="Assets\Scripts\STRlantian\GameEffects\BlurApplier.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Charting\Beat.cs" />
     <Compile Include="Assets\Scripts\STRlantian\GameEffects\HitEffect.cs" />
@@ -95,7 +98,6 @@
     <Compile Include="Assets\Scripts\STRlantian\Util\STextRoller.cs" />
     <Compile Include="Assets\Scripts\DreamOfStars\GamePlay\JudgeLineController.cs" />
     <Compile Include="Assets\Scripts\STRlantian\Gameplay\Block\LineRenderer.cs" />
-    <Compile Include="Assets\Scripts\STRlantian\Gameplay\LMGameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Materials\PaneStatic.shader" />

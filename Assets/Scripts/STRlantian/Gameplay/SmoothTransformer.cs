@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.STRlantian.Scripts.Gameplay
+namespace STRlantian.Gameplay
 {
     /// <summary>
     /// SmoothTransformer: 平滑移动

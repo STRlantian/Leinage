@@ -27,14 +27,12 @@ namespace STRlantian.Gameplay.Note
         public BoxCollider2D box;
         [SerializeField]
         public new SpriteRenderer renderer;
-        [SerializeField]
-        public bool tryactive = false;
 
         protected bool isMulti;
         protected bool isOut;
         protected HitEffect hit;
         protected bool isActive = false;
-        protected float posX, posY;
+        public float posX, posY;
 
         protected ANote(XElement note, float posY)
         {
@@ -44,7 +42,7 @@ namespace STRlantian.Gameplay.Note
 
         void Start()
         {
-            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0);
+            
         }
 
         void Update()

@@ -1,17 +1,32 @@
 using STRlantian.Gameplay.Block;
+using STRlantian.Gameplay.Charting;
 using STRlantian.Gameplay.Note;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LMGameManager : MonoBehaviour
+namespace STRlantian.Gameplay
 {
-    [SerializeField]
-    private List<BlockRenderer> blockList;
-    [SerializeField]
-    private List<ANote> noteList;
 
-    void Start()
+    public class LMGameManager : MonoBehaviour
     {
-        
+        public int Bpm { get; set; }
+        public BeatRail CurrentBeat { get; private set; }
+
+        private float beatPerMill;
+
+        void Start()
+        {
+            Init();
+        }
+
+        void Update()
+        {
+            CurrentBeat += beatPerMill;
+        }
+
+        public void Init()
+        {
+            beatPerMill = Bpm / 60 / 1000;
+        }
     }
 }
